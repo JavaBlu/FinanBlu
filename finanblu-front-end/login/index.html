@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finanblu -login</title>
+    <link rel="stylesheet" href="/assests/css/style.css">
+    <link rel="stylesheet" href="/assests/css/responsive.css">
+    <link rel="shortcut icon" href="/assests/images/favicon-finanblu.png" type="image/x-icon">
+
+</head>
+<body>
+
+    <main class="w-300 p-10 mt-200 mr-auto">
+        <img width="350" class="mb-10" src="../assests/images/logo-finanblu.svg" alt="">
+        <p class="t-center mt-10 mb-50 font-30">Bem-vindo de volta!</p>
+        <div class="login w-300">
+            <div class="" id="element">
+                
+            </div>
+            <form action="" method="" name="dados" onsubmit="return logar();">
+                <label for="emial">
+                    <input class="w-100 input-style" type="email" name="email" id="email" required placeholder="email">
+                </label>
+                <p style="display: none;" id="msg">informe uma senha</p>
+                <label for="senha">
+                    <input class="w-100 input-style"  type="password" name="senha" id="senha" placeholder="senha"><br>
+                </label>
+                <a class="mb-10 fr font-10 link link-color-1" href="/rest/" >Esqueceu a senha?</a>
+                <label for="button-entrar">
+                    <input class="link-button-1 submit" type="submit" name="button-entrar" id="button-entrar" >
+                </label>
+                <p class="font-10 mt-10 t-center">
+                    <a class="link link link-color-1" href="/sign-up/">Não possui cadastro ? </a> 
+                    <button type="button" onclick="windowTr()" >dashboard</button>
+                </p>
+            </form>      
+        </div>
+    </main>
+
+    <footer>
+       
+    </footer>
+    <script src="/assests/js/script.js"></script>
+</body>
+</html>
