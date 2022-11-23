@@ -14,13 +14,11 @@ public class Cliente {
 	private PessoaJuridica pessoaJuridica;
 	
 
-	public Cliente(long id, String razaoSocial, String nomeFantasia, String cnpj, Contato contato, Endereco endereco,
-			PessoaJuridica pessoaJuridica) {
+	public Cliente(long id, PessoaJuridica pessoaJuridica, Contato contato, Endereco endereco) {
 
 	}
 
-	public Cliente(String razaoSocial, String nomeFantasia, String cnpj, Contato contato, Endereco endereco,
-			PessoaJuridica pessoaJuridica) {
+	public Cliente(PessoaJuridica pessoaJuridica, Contato contato, Endereco endereco) {
 
 	}
 

@@ -9,9 +9,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.senac.finanblu.modelo.dao.contato.ContatoDAOImpl;
+import br.senac.finanblu.modelo.dao.endereco.EnderecoDAOImpl;
+import br.senac.finanblu.modelo.dao.pessoaJuridica.PessoaJuridicaDAOImpl;
 import br.senac.finanblu.modelo.entidade.cliente.Cliente;
 import br.senac.finanblu.modelo.entidade.contato.Contato;
 import br.senac.finanblu.modelo.entidade.endereco.Endereco;
+import br.senac.finanblu.modelo.entidade.pessoaJuridica.PessoaJuridica;
 
 public class ClienteDAOImpl implements ClienteDAO {
 
@@ -159,25 +163,19 @@ public class ClienteDAOImpl implements ClienteDAO {
 			conexao = conectarBanco();
 			consulta = conexao.createStatement();
 			resultado = consulta.executeQuery(
-					"select razao_social_pessoa_juridica, nome_fantasia_pessoa_juridica, cnpj_pessoa_juridica, telefone_contato, email_contato, cep_endereco, logradouro_endereco, numero_endereco, bairro_endereco, cidade_endereco, uf_endereco, complemento_endereco from pessoa_juridica p inner join cliente c on p.id_pessoa_juridica = c.id_pessoa_juridica inner join contato t on c.id_contato = t.id_contato inner join endereco e on c.id_endereco = e.id_endereco;");
+					"select id_cliente, id_pessoa_juridica, id_contato, id_endereco FROM cliente");
 
 			while (resultado.next()) {
 
-				String razaoSocial = resultado.getString("razao_social_pessoa_juridica");
-				String nomeFantasia = resultado.getString("nome_fantasia_pessoa_juridica");
-				String cnpj = resultado.getString("cnpj_pessoa_juridica");
-				long id = resultado.getInt("id_contato");
-				String telefone = resultado.getString("telefone_contato");
-				String email = resultado.getString("email_contato");
-				String cep = resultado.getString("cep_endereco");
-				String logradouro = resultado.getString("logradouro_endereco");
-				short numero = resultado.getShort("numero_endereco");
-				String bairro = resultado.getString("bairro_endereco");
-				String cidade = resultado.getString("cidade_endereco");
-				String uf = resultado.getString("uf_endereco");
-				String complemento = resultado.getString("uf_endereco");
-
-				clientes.add(new Cliente());
+				long idCliente = resultado.getLong("id_cliente");
+				long idPessoaJuridica = resultado.getLong("id_pessoa_juridica");
+				PessoaJuridica pessoaJuridica = new PessoaJuridicaDAOImpl().recuperarPessoaJuridicaPorId(idPessoaJuridica);
+				long idContato = resultado.getLong("id_contato");
+				Contato contato = new ContatoDAOImpl().recuperarContatoPorId(idContato);
+				long idEndereco = resultado.getLong("id_endereco");
+				Endereco endereco = new EnderecoDAOImpl().recuperarEnderecoPorId(idEndereco);
+				
+				clientes.add(new Cliente(idCliente, pessoaJuridica, contato, endereco));
 			}
 
 		} catch (SQLException erro) {

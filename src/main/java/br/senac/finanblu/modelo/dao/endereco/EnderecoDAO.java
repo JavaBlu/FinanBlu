@@ -10,19 +10,19 @@ public interface EnderecoDAO {
 
 	void deletarEndereco(Endereco endereco);
 
-	void atualizarCepEndereco(Endereco endereco, String cep);
+	void atualizarCepEndereco(Endereco endereco, String novoCep);
 
-	void atualizarLogradouroEndereco(Endereco endereco, String logradouro);
+	void atualizarLogradouroEndereco(Endereco endereco, String novoLogradouro);
 
-	void atualizarNumeroEndereco(Endereco endereco, short numero);
+	void atualizarNumeroEndereco(Endereco endereco, short novoNumero);
 
-	void atualizarBairroEndereco(Endereco endereco, String bairro);
+	void atualizarBairroEndereco(Endereco endereco, String novoBairro);
 
-	void atualizarCidadeEndereco(Endereco endereco, String cidade);
+	void atualizarCidadeEndereco(Endereco endereco, String novaCidade);
 
-	void atualizarUfEndereco(Endereco endereco, String uf);
+	void atualizarUfEndereco(Endereco endereco, String novaUf);
 
-	void atualizarComplementoEndereco(Endereco endereco, String uf);
+	void atualizarComplementoEndereco(Endereco endereco, String novoComplemento);
 
 	List<Endereco> recuperarEnderecos();
 }

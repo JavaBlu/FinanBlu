@@ -144,15 +144,23 @@ public class Principal {
 
 			Cliente cliente = clientes.get(i);
 
-			System.out.println("Razão Social: " + cliente.getNomeFantasia());
-			System.out.println("Nome Fantasia: " + cliente.getNomeFantasia());
-			System.out.println("CNPJ: " + cliente.getCnpj());
-			System.out.println("Id: " + cliente.getId());
+			System.out.println("Razão Social: " + cliente.getPessoaJuridica().getRazaoSocial());
+			System.out.println("Nome Fantasia: " + cliente.getPessoaJuridica().getNomeFantasia());
+			System.out.println("Cnpj: " + cliente.getPessoaJuridica().getCnpj());
+            System.out.println("Telefone: " + cliente.getContato().getTelefone());
+            System.out.println("Email: " + cliente.getContato().getEmail());
+        	System.out.println("CEP: " + cliente.getEndereco().getCep());
+        	System.out.println("Logradouro: " + cliente.getEndereco().getLogradouro());
+        	System.out.println("Numero: " + cliente.getEndereco().getNumero());
+        	System.out.println("Bairro: " + cliente.getEndereco().getBairro());
+        	System.out.println("Cidade: " + cliente.getEndereco().getCidade());
+        	System.out.println("UF: " + cliente.getEndereco().getUf());
+        	System.out.println("Complemento: " + cliente.getEndereco().getComplemento());
+
+
 			System.out.print("\n");
 		}
 	}
 
-
-		
-	}
+ }
 

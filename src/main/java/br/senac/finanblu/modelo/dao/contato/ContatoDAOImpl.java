@@ -20,19 +20,18 @@ public class ContatoDAOImpl implements ContatoDAO {
 
 		try {
 			conexao = conectarBanco();
-			insert = conexao.prepareStatement("INSERT INTO contato (telefone_contato, email_contato) VALUES (?,?)", 
-		            PreparedStatement.RETURN_GENERATED_KEYS);
+			insert = conexao.prepareStatement("INSERT INTO contato (telefone_contato, email_contato) VALUES (?,?)",
+					PreparedStatement.RETURN_GENERATED_KEYS);
 
-			
 			insert.setString(1, contato.getTelefone());
 			insert.setString(2, contato.getEmail());
 
 			insert.execute();
-            ResultSet chavePrimaria = insert.getGeneratedKeys();
+			ResultSet chavePrimaria = insert.getGeneratedKeys();
 
-            if (chavePrimaria.next())
-                contato.setId(chavePrimaria.getLong(1));
-			
+			if (chavePrimaria.next())
+				contato.setId(chavePrimaria.getLong(1));
+
 		} catch (SQLException erro) {
 			erro.printStackTrace();
 		} finally {
@@ -51,7 +50,7 @@ public class ContatoDAOImpl implements ContatoDAO {
 	}
 
 	public void deletarContato(Contato contato) {
-		
+
 		Connection conexao = null;
 		PreparedStatement delete = null;
 
@@ -85,10 +84,7 @@ public class ContatoDAOImpl implements ContatoDAO {
 		}
 	}
 
-
 	public void atualizarEmailContato(Contato contato, String novoEmail) {
-		
-		
 		Connection conexao = null;
 		PreparedStatement update = null;
 
@@ -96,7 +92,7 @@ public class ContatoDAOImpl implements ContatoDAO {
 
 			conexao = conectarBanco();
 			update = conexao.prepareStatement("UPDATE contato SET email_contato = ? WHERE id_contato = ?");
-			
+
 			update.setString(1, novoEmail);
 			update.setLong(2, contato.getId());
 
@@ -124,7 +120,7 @@ public class ContatoDAOImpl implements ContatoDAO {
 	}
 
 	public void atualizarTelefoneContato(Contato contato, String novoTelefone) {
-		
+
 		Connection conexao = null;
 		PreparedStatement update = null;
 
@@ -132,7 +128,7 @@ public class ContatoDAOImpl implements ContatoDAO {
 
 			conexao = conectarBanco();
 			update = conexao.prepareStatement("UPDATE contato SET telefone_contato = ? WHERE id_contato = ?");
-			
+
 			update.setString(1, novoTelefone);
 			update.setLong(2, contato.getId());
 
@@ -160,14 +156,15 @@ public class ContatoDAOImpl implements ContatoDAO {
 
 	}
 
+	
 	public List<Contato> recuperarContatos() {
-		
+
 		Connection conexao = null;
 		Statement consulta = null;
 		ResultSet resultado = null;
 
 		List<Contato> contatos = new ArrayList<Contato>();
-	
+
 		try {
 
 			conexao = conectarBanco();
@@ -179,7 +176,6 @@ public class ContatoDAOImpl implements ContatoDAO {
 				long id = resultado.getInt("id_contato");
 				String telefone = resultado.getString("telefone_contato");
 				String email = resultado.getString("email_contato");
-
 
 				contatos.add(new Contato(id, telefone, email));
 			}
@@ -208,6 +204,53 @@ public class ContatoDAOImpl implements ContatoDAO {
 		}
 
 		return contatos;
+	}
+	public Contato recuperarContatoPorId(long id) {
+
+		Connection conexao = null;
+		PreparedStatement consulta = null;
+		ResultSet resultado = null;
+		Contato contato = null;
+		try {
+
+			conexao = conectarBanco();
+			
+			consulta = conexao.prepareStatement("SELECT * FROM contato WHERE id_contato = ?");
+			consulta.setLong(1, id);
+			consulta.execute();
+			resultado = consulta.getResultSet();
+			while (resultado.next()) {
+			  
+				String telefone = resultado.getString("telefone_contato");
+				String email = resultado.getString("email_contato");
+
+				contato = new Contato(id, telefone, email);
+			}
+
+		} catch (SQLException erro) {
+			erro.printStackTrace();
+		}
+
+		finally {
+
+			try {
+
+				if (resultado != null)
+					resultado.close();
+
+				if (consulta != null)
+					consulta.close();
+
+				if (conexao != null)
+					conexao.close();
+
+			} catch (SQLException erro) {
+
+				erro.printStackTrace();
+			}
+		}
+
+		return contato;
 	}
 
 	private Connection conectarBanco() throws SQLException {
