@@ -22,6 +22,7 @@ public class Endereco {
 		this.setComplemento(complemento);
 
 	}
+
 	public Endereco(String cep, String logradouro, short numero, String bairro, String cidade, String uf,
 			String complemento) {
 		this.setCep(cep);
@@ -31,11 +32,12 @@ public class Endereco {
 		this.setCidade(cidade);
 		this.setUf(uf);
 		this.setComplemento(complemento);
-	}
-	
-	public Endereco() {} 
 
-	
+	}
+
+	public Endereco() {
+
+	}
 
 	public long getId() {
 		return id;
@@ -99,6 +101,25 @@ public class Endereco {
 
 	public void setComplemento(String complemento) {
 		this.complemento = complemento;
+	}
+
+	public boolean equals(Object objeto) {
+		if (this == objeto)
+			return true;
+
+		if (objeto == null)
+			return false;
+
+		if (getClass() != objeto.getClass())
+			return false;
+
+		Endereco endereco = (Endereco) objeto;
+
+		return getId() == endereco.getId() && getCep().equals(endereco.getCep())
+				&& getLogradouro().equals(endereco.getLogradouro()) && getNumero() == endereco.getNumero()
+				&& getBairro().equals(endereco.getBairro()) && getCidade().equals(endereco.getCidade())
+				&& getUf().equals(endereco.getUf());
+
 	}
 
 }

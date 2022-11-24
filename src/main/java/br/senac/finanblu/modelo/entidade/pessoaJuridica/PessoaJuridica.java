@@ -1,17 +1,36 @@
 package br.senac.finanblu.modelo.entidade.pessoaJuridica;
 
-
 public class PessoaJuridica {
-
+	private long id;
 	private String razaoSocial;
 	private String nomeFantasia;
 	private String cnpj;
 
-	public PessoaJuridica(String razaoSocial, String nomeFantasia, String cnpj) {
-		this.razaoSocial = razaoSocial;
-		this.nomeFantasia = nomeFantasia;
-		this.cnpj = cnpj;
+	public PessoaJuridica(long id, String razaoSocial, String nomeFantasia, String cnpj) {
+		this.setId(id);
+		this.setRazaoSocial(razaoSocial);
+		this.setNomeFantasia(nomeFantasia);
+		this.setCnpj(cnpj);
 
+	}
+
+	public PessoaJuridica(String razaoSocial, String nomeFantasia, String cnpj) {
+		this.setRazaoSocial(razaoSocial);
+		this.setNomeFantasia(nomeFantasia);
+		this.setCnpj(cnpj);
+
+	}
+
+	public PessoaJuridica() {
+
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getRazaoSocial() {
@@ -38,4 +57,21 @@ public class PessoaJuridica {
 		this.cnpj = cnpj;
 	}
 
+	public boolean equals(Object objeto) {
+		if (this == objeto)
+			return true;
+
+		if (objeto == null)
+			return false;
+
+		if (getClass() != objeto.getClass())
+			return false;
+
+		PessoaJuridica pessoaJuridica = (PessoaJuridica) objeto;
+
+		return getId() == pessoaJuridica.getId() && getRazaoSocial().equals(pessoaJuridica.getRazaoSocial())
+				&& getNomeFantasia().equals(pessoaJuridica.getNomeFantasia())
+				&& getCnpj().equals(pessoaJuridica.getCnpj());
+
+	}
 }

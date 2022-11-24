@@ -10,28 +10,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.senac.finanblu.modelo.entidade.pessoaJuridica.PessoaJuridica;
-
 public class PessoaJuridicaDAOImpl implements PessoaJuridicaDAO {
 
-	public void inserirPessoaJuridica(PessoaJuridica pessoaJuridica) {
+	public void	 inserirPessoaJuridica(PessoaJuridica pessoaJuridica) {
 		Connection conexao = null;
 		PreparedStatement insert = null;
 
 		try {
 			conexao = conectarBanco();
 			insert = conexao.prepareStatement(
-					"INSERT INTO pessoa_juridica(cnpj_pessoa_juridica, razao_social_pessoa_juridica, nome_fantasia_pessoa_juridica) VALUES (?,?,?)", 
-		            PreparedStatement.RETURN_GENERATED_KEYS);
-
+					"INSERT INTO pessoa_juridica(cnpj_pessoa_juridica, razao_social_pessoa_juridica, nome_fantasia_pessoa_juridica) VALUES (?,?,?)",
+			PreparedStatement.RETURN_GENERATED_KEYS);
 			insert.setString(1, pessoaJuridica.getCnpj());
 			insert.setString(2, pessoaJuridica.getRazaoSocial());
 			insert.setString(3, pessoaJuridica.getNomeFantasia());
 
 			insert.execute();
-			  ResultSet chavePrimaria = insert.getGeneratedKeys();
-			  
-			   if (chavePrimaria.next())
-	                pessoaJuridica.setId(chavePrimaria.getLong(1));
+			ResultSet chavePrimaria = insert.getGeneratedKeys();
+			
+			if (chavePrimaria.next())
+				pessoaJuridica.setId(chavePrimaria.getLong(1));
 			
 		} catch (SQLException erro) {
 			erro.printStackTrace();
@@ -197,9 +195,57 @@ public class PessoaJuridicaDAOImpl implements PessoaJuridicaDAO {
 
 		return pessoasJuridicas;
 	}
+	public PessoaJuridica recuperarPessoaJuridicaPorId(long id) {
+
+		Connection conexao = null;
+		PreparedStatement consulta = null;
+		ResultSet resultado = null;
+		PessoaJuridica pessoaJuridica = null;
+		try {
+
+			conexao = conectarBanco();
+			
+			consulta = conexao.prepareStatement("SELECT * FROM pessoa_juridica WHERE id_pessoa_juridica = ?");
+			consulta.setLong(1, id);
+			consulta.execute();
+			resultado = consulta.getResultSet();
+			while (resultado.next()) {
+			  
+				String razaoSocial = resultado.getString("razao_social_pessoa_juridica");
+				String nomeFantasia = resultado.getString("nome_fantasia_pessoa_juridica");
+				String cnpj = resultado.getString("cnpj_pessoa_juridica");
+
+				pessoaJuridica = new PessoaJuridica(id, razaoSocial, nomeFantasia, cnpj );
+			}
+
+		} catch (SQLException erro) {
+			erro.printStackTrace();
+		}
+
+		finally {
+
+			try {
+
+				if (resultado != null)
+					resultado.close();
+
+				if (consulta != null)
+					consulta.close();
+
+				if (conexao != null)
+					conexao.close();
+
+			} catch (SQLException erro) {
+
+				erro.printStackTrace();
+			}
+		}
+
+		return pessoaJuridica;
+	}
 
 	private Connection conectarBanco() throws SQLException {
-		return DriverManager.getConnection("jdbc:mysql://localhost/finanblu?user=root&password=Cry$talc0ld");
+		return DriverManager.getConnection("jdbc:mysql://localhost/finanblu?user=root&password=root");
 	}
 
 }
