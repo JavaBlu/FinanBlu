@@ -1,6 +1,7 @@
 package br.senac.finanblu.modelo.dao.venda;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import br.senac.finanblu.modelo.entidade.venda.Venda;
 import br.senac.finanblu.modelo.enumeracao.FormaPagamento;
@@ -22,5 +23,7 @@ public interface VendaDAO {
 	void atualizarDataVenda(Venda venda, LocalDate novaDataVenda);
 
 	void atualizarFormaPagamento(Venda venda, FormaPagamento formaPagamento);
+	
+	List<Venda> recuperarVendas();
 	
 }

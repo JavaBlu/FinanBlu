@@ -1,12 +1,12 @@
 package br.senac.finanblu.principal;
 
-import java.time.LocalDate;
+import java.util.List;
+import java.util.Scanner;
 
 import br.senac.finanblu.modelo.dao.venda.VendaDAO;
 import br.senac.finanblu.modelo.dao.venda.VendaDAOImpl;
-import br.senac.finanblu.modelo.entidade.cliente.Cliente;
 import br.senac.finanblu.modelo.entidade.venda.Venda;
-import br.senac.finanblu.modelo.enumeracao.FormaPagamento;
+import br.senac.finanblu.modelo.enumeracao.Menu;
 
 public class Principal {
 
@@ -501,7 +501,7 @@ public class Principal {
 	}
 */
 	public static void main(String[] args) {
-		
+	/*	
 		float valorVenda = 5000;
 		LocalDate dataVenda = LocalDate.now();
 		FormaPagamento formaPagamento = FormaPagamento.BOLETO;
@@ -512,6 +512,34 @@ public class Principal {
 		dao.inserirVenda(venda);
 		
 
+	*/
+		VendaDAO dao = new VendaDAOImpl();
+		List<Venda> vendas = null;
+
+		System.out.println("Sejam Bem-Vindos.\n");
+
+		System.out.println("As Opções Disponíveis São:\n");
+
+		System.out.println("1 - Listar Clientes.");
+		System.out.println("2 - Editar Clientes.");
+		System.out.println("3 - Deletar Clientes.");
+		System.out.println("4 - Sair do Sistema.\n");
+
+		System.out.print("Selecione Uma das Opções Apresentadas: ");
+
+		Scanner leitor = new Scanner(System.in);
+		Menu menu = Menu.values()[Integer.parseInt(leitor.next()) - 1];
+
 		
+			switch (menu) {
+
+			case LISTAR:
+
+				vendas = dao.recuperarVendas();
+				listarVendas(vendas);
+
+				break;
+
 	}
+}
 }
