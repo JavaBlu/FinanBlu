@@ -1,13 +1,12 @@
 package br.senac.finanblu.principal;
 
-import java.util.List;
-import java.util.Scanner;
+import java.time.LocalDate;
 
-import br.senac.finanblu.modelo.dao.cliente.ClienteDAO;
-import br.senac.finanblu.modelo.dao.cliente.ClienteDAOImpl;
+import br.senac.finanblu.modelo.dao.venda.VendaDAO;
+import br.senac.finanblu.modelo.dao.venda.VendaDAOImpl;
 import br.senac.finanblu.modelo.entidade.cliente.Cliente;
-import br.senac.finanblu.modelo.enumeracao.AtributoCliente;
-import br.senac.finanblu.modelo.enumeracao.Menu;
+import br.senac.finanblu.modelo.entidade.venda.Venda;
+import br.senac.finanblu.modelo.enumeracao.FormaPagamento;
 
 public class Principal {
 
@@ -283,12 +282,13 @@ public class Principal {
 	 * pessoaJuridica.setRazaoSocial("se3m01a"); PessoaJuridicaDAO pjdao = new
 	 * PessoaJuridicaDAOImpl(); pjdao.inserirPessoaJuridica(pessoaJuridica);
 	 * 
-	 * Cliente cliente = new Cliente(); cliente.setPessoaJuridica(pessoaJuridica);
+	 Cliente cliente = new Cliente(); cliente.setPessoaJuridica(pessoaJuridica);
 	 * cliente.setContato(contato); cliente.setEndereco(endereco);
 	 * 
 	 * ClienteDAO clientedao = new ClienteDAOImpl();
-	 * clientedao.InserirCliente(cliente);
-	 */
+	 * clientedao.InserirCliente(cliente); }
+	 * 
+	 
 	public static void main(String[] args) {
 		ClienteDAO dao = new ClienteDAOImpl();
 		List<Cliente> clientes = null;
@@ -420,13 +420,13 @@ public class Principal {
 					dao.atualizarCidadeEndereco(cliente, leitor.next());
 
 					break;
-					
+
 				case UF:
 					System.out.println("\n");
 					System.out.println("Informe a nova UF Do Cliente");
 					dao.atualizarUfEndereco(cliente, leitor.next());
 					break;
-					
+
 				case COMPLEMENTO:
 					System.out.println("\n");
 					System.out.println("Informe a novo Complemento Do Cliente");
@@ -499,5 +499,19 @@ public class Principal {
 			System.out.print("\n");
 		}
 	}
+*/
+	public static void main(String[] args) {
+		
+		float valorVenda = 5000;
+		LocalDate dataVenda = LocalDate.now();
+		FormaPagamento formaPagamento = FormaPagamento.BOLETO;
+		Cliente cliente = new Cliente(1L);
+		Venda venda = new Venda(cliente, valorVenda, dataVenda, formaPagamento);
+		
+		VendaDAO dao = new VendaDAOImpl();
+		dao.inserirVenda(venda);
+		
 
+		
+	}
 }

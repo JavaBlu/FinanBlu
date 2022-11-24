@@ -14,7 +14,6 @@ import br.senac.finanblu.modelo.dao.endereco.EnderecoDAOImpl;
 import br.senac.finanblu.modelo.dao.pessoaJuridica.PessoaJuridicaDAOImpl;
 import br.senac.finanblu.modelo.entidade.cliente.Cliente;
 import br.senac.finanblu.modelo.entidade.contato.Contato;
-import br.senac.finanblu.modelo.entidade.empresa.Empresa;
 import br.senac.finanblu.modelo.entidade.endereco.Endereco;
 import br.senac.finanblu.modelo.entidade.pessoaJuridica.PessoaJuridica;
 
