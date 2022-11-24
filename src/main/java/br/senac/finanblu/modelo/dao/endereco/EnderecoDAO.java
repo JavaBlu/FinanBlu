@@ -5,24 +5,16 @@ import java.util.List;
 import br.senac.finanblu.modelo.entidade.endereco.Endereco;
 
 public interface EnderecoDAO {
-
-	void inserirEndereco(Endereco endereco);
-
-	void deletarEndereco(Endereco endereco);
-
-	void atualizarCepEndereco(Endereco endereco, String cep);
-
-	void atualizarLogradouroEndereco(Endereco endereco, String logradouro);
-
-	void atualizarNumeroEndereco(Endereco endereco, short numero);
-
-	void atualizarBairroEndereco(Endereco endereco, String bairro);
-
-	void atualizarCidadeEndereco(Endereco endereco, String cidade);
-
-	void atualizarUfEndereco(Endereco endereco, String uf);
-
-	void atualizarComplementoEndereco(Endereco endereco, String uf);
+	
+	void inserirEndereco (Endereco endereco);
+	void deletarEndereco (Endereco endereco);
+	void atualizarCepEndereco(Endereco endereco, String novoCep);
+	void atualizarLogradouroEndereco(Endereco endereco, String novoLogradouro);
+	void atualizarNumeroEndereco(Endereco endereco, short novoNumero);
+	void atualizarBairroEndereco(Endereco endereco, String novoBairro);
+	void atualizarCidadeEndereco(Endereco endereco, String novaCidade);
+	void atualizarUfEndereco(Endereco endereco, String novaUf);
+	void atualizarComplementoEndereco(Endereco endereco, String novoComplemento);
 
 	List<Endereco> recuperarEnderecos();
 }

@@ -1,20 +1,29 @@
 package br.senac.finanblu.modelo.entidade.empresa;
 
 import br.senac.finanblu.modelo.entidade.contato.Contato;
-import br.senac.finanblu.modelo.entidade.endereco.Endereco;
 import br.senac.finanblu.modelo.entidade.pessoaJuridica.PessoaJuridica;
 
-public class Empresa extends PessoaJuridica {
+public class Empresa {
 	private long id;
-	private Endereco endereco;
 	private Contato contato;
+	private String senha;
+	private PessoaJuridica pessoaJuridica;
 
-	public Endereco getEndereco() {
-		return endereco;
+	public Empresa(long id, PessoaJuridica pessoaJuridica, Contato contato, String senha) {
+		this.setId(id);
+		this.setPessoaJuridica(pessoaJuridica);
+		this.setContato(contato);
+		this.setSenha(senha);
 	}
 
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
+	public Empresa(Contato contato, String senha, PessoaJuridica pessoaJuridica) {
+		this.setContato(contato);
+		this.setSenha(senha);
+		this.setPessoaJuridica(pessoaJuridica); 
+	}
+
+	public Empresa() {
+
 	}
 
 	public Contato getContato() {
@@ -25,13 +34,12 @@ public class Empresa extends PessoaJuridica {
 		this.contato = contato;
 	}
 
-	public Empresa(String razaoSocial, String nomeFantasia, String cnpj, Contato contato, Endereco endereco, long id) {
-		super(razaoSocial, nomeFantasia, cnpj);
-		this.setId(id);
+	public String getSenha() {
+		return senha;
 	}
 
-	public Empresa(String razaoSocial, String nomeFantasia, String cnpj, Contato contato, Endereco endereco) {
-		super(razaoSocial, nomeFantasia, cnpj);
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 	public long getId() {
@@ -40,6 +48,14 @@ public class Empresa extends PessoaJuridica {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public PessoaJuridica getPessoaJuridica() {
+		return pessoaJuridica;
+	}
+
+	public void setPessoaJuridica(PessoaJuridica pessoaJuridica) {
+		this.pessoaJuridica = pessoaJuridica;
 	}
 
 	public boolean equals(Object objeto) {
@@ -55,7 +71,7 @@ public class Empresa extends PessoaJuridica {
 
 		Empresa empresa = (Empresa) objeto;
 
-		return getId() == empresa.getId() && getRazaoSocial().equals(empresa.getRazaoSocial())
-				&& getNomeFantasia().equals(empresa.getNomeFantasia()) && getCnpj().equals(empresa.getCnpj());
+		return getId() == empresa.getId() && getContato().equals(empresa.getContato()) && getPessoaJuridica().equals(empresa.getPessoaJuridica())
+				&& getSenha().equals(empresa.getSenha());
 	}
 }

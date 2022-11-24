@@ -21,13 +21,16 @@ public class Venda {
 		this.setFormaPagamento(formaPagamento);
 
 	}
-
 	public Venda(Cliente cliente, float valorVenda, LocalDate dataVenda, FormaPagamento formaPagamento) {
+		this.setId(id);
 		this.setCliente(cliente);
 		this.setValorVenda(valorVenda);
 		this.setDataVenda(dataVenda);
 		this.setFormaPagamento(formaPagamento);
-
+		
+	}
+	public Venda() {
+		
 	}
 
 	public long getId() {
@@ -69,4 +72,5 @@ public class Venda {
 	public void setFormaPagamento(FormaPagamento formaPagamento) {
 		this.formaPagamento = formaPagamento;
 	}
+
 }

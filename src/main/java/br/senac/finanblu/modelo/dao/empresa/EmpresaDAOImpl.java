@@ -1,4 +1,4 @@
-package br.senac.finanblu.modelo.dao.cliente;
+	package br.senac.finanblu.modelo.dao.empresa;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,39 +8,40 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import br.senac.finanblu.modelo.dao.contato.ContatoDAOImpl;
-import br.senac.finanblu.modelo.dao.endereco.EnderecoDAOImpl;
 import br.senac.finanblu.modelo.dao.pessoajuridica.PessoaJuridicaDAOImpl;
-import br.senac.finanblu.modelo.entidade.cliente.Cliente;
 import br.senac.finanblu.modelo.entidade.contato.Contato;
 import br.senac.finanblu.modelo.entidade.empresa.Empresa;
-import br.senac.finanblu.modelo.entidade.endereco.Endereco;
 import br.senac.finanblu.modelo.entidade.pessoaJuridica.PessoaJuridica;
 
-public class ClienteDAOImpl implements ClienteDAO {
+public class EmpresaDAOImpl implements EmpresaDAO {
 
-	public void InserirCliente(Cliente cliente) {
+	public void inserirEmpresa(Empresa empresa) {
 		Connection conexao = null;
 		PreparedStatement insert = null;
 
 		try {
 			conexao = conectarBanco();
 			insert = conexao.prepareStatement(
-					"INSERT INTO cliente (id_pessoa_juridica, id_contato, id_endereco) VALUES (?,?,?)",
+					"INSERT INTO empresa(id_pessoa_juridica, id_contato, senha_empresa) VALUES (?,?,?)",
 					PreparedStatement.RETURN_GENERATED_KEYS);
 
-			insert.setLong(1, cliente.getPessoaJuridica().getId());
-			Contato contato = cliente.getContato();
+			insert.setLong(1, empresa.getPessoaJuridica().getId());
+
+			Contato contato = empresa.getContato();
 			insert.setLong(2, contato.getId());
-			Endereco endereco = cliente.getEndereco();
-			insert.setLong(3, endereco.getId());
+
+			insert.setString(3, empresa.getSenha());
 
 			insert.execute();
+
 			ResultSet chavePrimaria = insert.getGeneratedKeys();
 
 			if (chavePrimaria.next())
-				cliente.setId(chavePrimaria.getLong(1));
+				empresa.setId(chavePrimaria.getLong(1));
+
 		} catch (SQLException erro) {
 			erro.printStackTrace();
 		} finally {
@@ -55,45 +56,34 @@ public class ClienteDAOImpl implements ClienteDAO {
 				erro.printStackTrace();
 			}
 		}
-
 	}
 
-	public void DeletarCliente(Cliente cliente) {
-
+	public void deletarEmpresa(Empresa empresa) {
 		Connection conexao = null;
 		PreparedStatement delete = null;
 
 		try {
-
 			conexao = conectarBanco();
-			delete = conexao.prepareStatement("DELETE FROM cliente WHERE id_cliente = ?");
+			delete = conexao.prepareStatement("DELETE FROM empresa WHERE id_empresa = ?");
 
-			delete.setLong(1, cliente.getId());
-
+			delete.setLong(1, empresa.getId());
 			delete.execute();
-
 		} catch (SQLException erro) {
 			erro.printStackTrace();
-		}
-
-		finally {
-
+		} finally {
 			try {
-
 				if (delete != null)
 					delete.close();
 
 				if (conexao != null)
 					conexao.close();
-
 			} catch (SQLException erro) {
-
 				erro.printStackTrace();
 			}
 		}
 	}
 
-	public void AtualizarRazaoSocial(Cliente cliente, String novaRazaoSocial) {
+	public void atualizarRazaoSocial(Empresa empresa, String novaRazaoSocial) {
 		Connection conexao = null;
 		PreparedStatement update = null;
 		try {
@@ -102,7 +92,7 @@ public class ClienteDAOImpl implements ClienteDAO {
 					"UPDATE pessoa_juridica SET razao_social_pessoa_juridica = ? WHERE id_pessoa_juridica = ?");
 
 			update.setString(1, novaRazaoSocial);
-			update.setLong(2, cliente.getPessoaJuridica().getId());
+			update.setLong(2, empresa.getPessoaJuridica().getId());
 
 			update.execute();
 		} catch (SQLException erro) {
@@ -120,7 +110,7 @@ public class ClienteDAOImpl implements ClienteDAO {
 		}
 	}
 
-	public void atualizarNomeFantasia(Cliente cliente, String novoNomeFantasia) {
+	public void atualizarNomeFantasia(Empresa empresa, String novoNomeFantasia) {
 		Connection conexao = null;
 		PreparedStatement update = null;
 		try {
@@ -174,73 +164,104 @@ public class ClienteDAOImpl implements ClienteDAO {
 		}
 	}
 
-	public void AtualizarEmailContato(Contato contato, String novoEmail) {
-		// TODO Auto-generated method stub
+	public void atualizarTelefoneEmpresa(Empresa empresa, String novoTelefone) {
+		Connection conexao = null;
+		PreparedStatement update = null;
+		try {
+			conexao = conectarBanco();
+			update = conexao.prepareStatement("UPDATE contato SET telefone_contato = ? WHERE id_contato = ?");
 
+			update.setString(1, novoTelefone);
+			update.setLong(2, empresa.getContato().getId());
+
+			update.execute();
+		} catch (SQLException erro) {
+			erro.printStackTrace();
+		} finally {
+			try {
+				if (update != null)
+					update.close();
+
+				if (conexao != null)
+					conexao.close();
+			} catch (SQLException erro) {
+				erro.printStackTrace();
+			}
+		}
+	}
+	public void atualizarEmailEmpresa(Empresa empresa, String novoEmail) {
+		Connection conexao = null;
+		PreparedStatement update = null;
+		try {
+			conexao = conectarBanco();
+			update = conexao.prepareStatement("UPDATE contato SET email_contato = ? WHERE id_contato = ?");
+
+			update.setString(1, novoEmail);
+			update.setLong(2, empresa.getContato().getId());
+
+			update.execute();
+		} catch (SQLException erro) {
+			erro.printStackTrace();
+		} finally {
+			try {
+				if (update != null)
+					update.close();
+
+				if (conexao != null)
+					conexao.close();
+			} catch (SQLException erro) {
+				erro.printStackTrace();
+			}
+		}
+	}
+	public void atualizarSenha(Empresa empresa, String novaSenha) {
+		Connection conexao = null;
+		PreparedStatement update = null;
+		try {
+			conexao = conectarBanco();
+			update = conexao.prepareStatement("UPDATE empresa SET senha_empresa = ? WHERE id_empresa = ?");
+
+			update.setString(1, novaSenha);
+			update.setLong(2, empresa.getId());
+
+			update.execute();
+		} catch (SQLException erro) {
+			erro.printStackTrace();
+		} finally {
+			try {
+				if (update != null)
+					update.close();
+
+				if (conexao != null)
+					conexao.close();
+			} catch (SQLException erro) {
+				erro.printStackTrace();
+			}
+		}
 	}
 
-	public void AtualizarTelefoneContato(Contato contato, String novoTelefone) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void atualizarCepEndereco(Endereco endereco, String novoCep) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void atualizarLogradouroEndereco(Endereco endereco, String novoLogradouro) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void atualizarNumeroEndereco(Endereco endereco, short novoNumero) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void atualizarBairroEndereco(Endereco endereco, String novoBairro) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void atualizarCidadeEndereco(Endereco endereco, String novaCidade) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void atualizarUfEndereco(Endereco endereco, String uf) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void atualizarComplementoEndereco(Endereco endereco, String uf) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public List<Cliente> recuperarClientes() {
+	public List<Empresa> recuperarEmpresas() {
 		Connection conexao = null;
 		Statement consulta = null;
 		ResultSet resultado = null;
 
-		List<Cliente> clientes = new ArrayList<Cliente>();
+		List<Empresa> empresas = new ArrayList<Empresa>();
 
 		try {
 			conexao = conectarBanco();
 			consulta = conexao.createStatement();
-			resultado = consulta
-					.executeQuery("select id_cliente, id_pessoa_juridica, id_contato, id_endereco from cliente");
+			resultado = consulta.executeQuery(
+					"select id_empresa, id_contato, id_pessoa_juridica, senha_empresa from empresa");
 
 			while (resultado.next()) {
-				long idCliente = resultado.getLong("id_cliente");
+				long idEmpresa = resultado.getLong("id_empresa");
 				long idPessoaJuridica = resultado.getLong("id_pessoa_juridica");
 				PessoaJuridica pessoaJuridica = new PessoaJuridicaDAOImpl().recuperarPessoaJuridicaPorId(idPessoaJuridica);
 				long idContato = resultado.getLong("id_contato");
 				Contato contato = new ContatoDAOImpl().recuperarContatoPorId(idContato);
-				long idEndereco = resultado.getLong("id_endereco");
-				Endereco endereco = new EnderecoDAOImpl().recuperarEnderecoPorId(idEndereco);
-				clientes.add(new Cliente(idCliente, pessoaJuridica, contato, endereco));
+				String senha = resultado.getString("senha_empresa");
+
+				empresas.add(new Empresa(idEmpresa, pessoaJuridica, contato, senha));
 
 			}
 
@@ -262,7 +283,7 @@ public class ClienteDAOImpl implements ClienteDAO {
 			}
 		}
 
-		return clientes;
+		return empresas;
 	}
 
 	private Connection conectarBanco() throws SQLException {
