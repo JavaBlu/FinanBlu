@@ -470,7 +470,7 @@ public class VendaDAOImpl implements VendaDAO {
 			conexao = conectarBanco();
 			consulta = conexao.createStatement();
 			resultado = consulta.executeQuery(
-					"select id_venda, id_cliente, valor_venda, data_venda, forma_pagamento_venda, parcela_venda from venda order by id_cliente desc");
+					"select * from venda order by id_cliente desc");
 
 			while (resultado.next()) {
 				long idVenda = resultado.getLong("id_venda");
