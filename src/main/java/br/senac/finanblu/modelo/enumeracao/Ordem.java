@@ -1,5 +1,6 @@
 package br.senac.finanblu.modelo.enumeracao;
 
-public enum AtributoVenda {
- DATAVENDA, CLIENTE
+public enum Ordem {
+	ASCENDENTE, DESCENDENTE
 }
+	

@@ -27,14 +27,15 @@ public class VendaDAOImpl implements VendaDAO {
 		try {
 			conexao = conectarBanco();
 			insert = conexao.prepareStatement(
-					"INSERT INTO venda (valor_venda, data_venda, forma_pagamento_venda, id_cliente) VALUES (?,?,?,?)",
+					"INSERT INTO venda (valor_venda, data_venda, forma_pagamento_venda, parcela_venda, id_cliente) VALUES (?,?,?,?,?)",
 					PreparedStatement.RETURN_GENERATED_KEYS);
 			insert.setFloat(1, venda.getValorVenda());
 			insert.setString(2, venda.getDataVenda().toString());
 			insert.setString(3, venda.getFormaPagamento().toString());
-			insert.setLong(4, venda.getCliente().getId());
+			insert.setShort(4, venda.getParcela());
+			insert.setLong(5, venda.getCliente().getId());
 			insert.execute();
-			
+
 			ResultSet chavePrimaria = insert.getGeneratedKeys();
 
 			if (chavePrimaria.next())
@@ -250,6 +251,32 @@ public class VendaDAOImpl implements VendaDAO {
 		}
 	}
 
+	public void atualizarParcela(Venda venda, short novaParcela) {
+		Connection conexao = null;
+		PreparedStatement update = null;
+		try {
+			conexao = conectarBanco();
+			update = conexao.prepareStatement("UPDATE venda SET parcela_venda = ? WHERE id_venda = ?");
+
+			update.setShort(1, novaParcela);
+			update.setLong(2, venda.getId());
+
+			update.execute();
+		} catch (SQLException erro) {
+			erro.printStackTrace();
+		} finally {
+			try {
+				if (update != null)
+					update.close();
+
+				if (conexao != null)
+					conexao.close();
+			} catch (SQLException erro) {
+				erro.printStackTrace();
+			}
+		}
+	}
+
 	public List<Venda> recuperarVendas() {
 		Connection conexao = null;
 		Statement consulta = null;
@@ -260,8 +287,7 @@ public class VendaDAOImpl implements VendaDAO {
 		try {
 			conexao = conectarBanco();
 			consulta = conexao.createStatement();
-			resultado = consulta.executeQuery(
-					"select id_venda, id_cliente, valor_venda, data_venda, forma_pagamento_venda from venda");
+			resultado = consulta.executeQuery("select * from venda");
 
 			while (resultado.next()) {
 				long idVenda = resultado.getLong("id_venda");
@@ -270,7 +296,8 @@ public class VendaDAOImpl implements VendaDAO {
 				float valorVenda = resultado.getFloat("valor_venda");
 				LocalDate dataVenda = LocalDate.parse(resultado.getString("data_venda"));
 				FormaPagamento formaPagamento = FormaPagamento.valueOf(resultado.getString("forma_pagamento_venda"));
-				vendas.add(new Venda(idVenda, cliente, valorVenda, dataVenda, formaPagamento));
+				short parcela = resultado.getShort("parcela_venda");
+				vendas.add(new Venda(idVenda, cliente, valorVenda, dataVenda, formaPagamento, parcela));
 
 			}
 
@@ -295,6 +322,188 @@ public class VendaDAOImpl implements VendaDAO {
 		return vendas;
 	}
 
+	public List<Venda> recuperarVendasPorOrdemDataAscendente() {
+		Connection conexao = null;
+		Statement consulta = null;
+		ResultSet resultado = null;
+
+		List<Venda> vendas = new ArrayList<Venda>();
+
+		try {
+			conexao = conectarBanco();
+			consulta = conexao.createStatement();
+			resultado = consulta.executeQuery("SELECT * FROM venda ORDER BY year(data_venda) ASC");
+
+			while (resultado.next()) {
+				long idVenda = resultado.getLong("id_venda");
+				long idCliente = resultado.getLong("id_cliente");
+				Cliente cliente = new ClienteDAOImpl().recuperarClientePorId(idCliente);
+				float valorVenda = resultado.getFloat("valor_venda");
+				LocalDate dataVenda = LocalDate.parse(resultado.getString("data_venda"));
+				FormaPagamento formaPagamento = FormaPagamento.valueOf(resultado.getString("forma_pagamento_venda"));
+				short parcela = resultado.getShort("parcela_venda");
+				vendas.add(new Venda(idVenda, cliente, valorVenda, dataVenda, formaPagamento, parcela));
+
+			}
+
+		} catch (SQLException erro) {
+			erro.printStackTrace();
+		} finally {
+			try {
+				if (resultado != null)
+					resultado.close();
+
+				if (consulta != null)
+					consulta.close();
+
+				if (conexao != null)
+					conexao.close();
+
+			} catch (SQLException erro) {
+				erro.printStackTrace();
+			}
+		}
+
+		return vendas;
+	}
+
+	public List<Venda> recuperarVendasPorOrdemDataDescendente() {
+		Connection conexao = null;
+		Statement consulta = null;
+		ResultSet resultado = null;
+
+		List<Venda> vendas = new ArrayList<Venda>();
+
+		try {
+			conexao = conectarBanco();
+			consulta = conexao.createStatement();
+			resultado = consulta.executeQuery(
+					"select * from id_venda, id_cliente, valor_venda, data_venda, forma_pagamento_venda, parcela_venda from venda ORDER BY year(data_venda) DESC");
+
+			while (resultado.next()) {
+				long idVenda = resultado.getLong("id_venda");
+				long idCliente = resultado.getLong("id_cliente");
+				Cliente cliente = new ClienteDAOImpl().recuperarClientePorId(idCliente);
+				float valorVenda = resultado.getFloat("valor_venda");
+				LocalDate dataVenda = LocalDate.parse(resultado.getString("data_venda"));
+				FormaPagamento formaPagamento = FormaPagamento.valueOf(resultado.getString("forma_pagamento_venda"));
+				short parcela = resultado.getShort("parcela_venda");
+				vendas.add(new Venda(idVenda, cliente, valorVenda, dataVenda, formaPagamento, parcela));
+
+			}
+
+		} catch (SQLException erro) {
+			erro.printStackTrace();
+		} finally {
+			try {
+				if (resultado != null)
+					resultado.close();
+
+				if (consulta != null)
+					consulta.close();
+
+				if (conexao != null)
+					conexao.close();
+
+			} catch (SQLException erro) {
+				erro.printStackTrace();
+			}
+		}
+
+		return vendas;
+	}
+
+	public List<Venda> recuperarVendasPorOrdemClienteAscendente() {
+		Connection conexao = null;
+		Statement consulta = null;
+		ResultSet resultado = null;
+
+		List<Venda> vendas = new ArrayList<Venda>();
+
+		try {
+			conexao = conectarBanco();
+			consulta = conexao.createStatement();
+			resultado = consulta.executeQuery(
+					"select id_venda, id_cliente, valor_venda, data_venda, forma_pagamento_venda, parcela_venda from venda ORDER BY id_cliente asc");
+
+			while (resultado.next()) {
+				long idVenda = resultado.getLong("id_venda");
+				long idCliente = resultado.getLong("id_cliente");
+				Cliente cliente = new ClienteDAOImpl().recuperarClientePorId(idCliente);
+				float valorVenda = resultado.getFloat("valor_venda");
+				LocalDate dataVenda = LocalDate.parse(resultado.getString("data_venda"));
+				FormaPagamento formaPagamento = FormaPagamento.valueOf(resultado.getString("forma_pagamento_venda"));
+				short parcela = resultado.getShort("parcela_venda");
+				vendas.add(new Venda(idVenda, cliente, valorVenda, dataVenda, formaPagamento, parcela));
+
+			}
+
+		} catch (SQLException erro) {
+			erro.printStackTrace();
+		} finally {
+			try {
+				if (resultado != null)
+					resultado.close();
+
+				if (consulta != null)
+					consulta.close();
+
+				if (conexao != null)
+					conexao.close();
+
+			} catch (SQLException erro) {
+				erro.printStackTrace();
+			}
+		}
+
+		return vendas;
+	}
+
+	public List<Venda> recuperarVendasPorOrdemClienteDescendente() {
+		Connection conexao = null;
+		Statement consulta = null;
+		ResultSet resultado = null;
+
+		List<Venda> vendas = new ArrayList<Venda>();
+
+		try {
+			conexao = conectarBanco();
+			consulta = conexao.createStatement();
+			resultado = consulta.executeQuery(
+					"select id_venda, id_cliente, valor_venda, data_venda, forma_pagamento_venda, parcela_venda from venda order by id_cliente desc");
+
+			while (resultado.next()) {
+				long idVenda = resultado.getLong("id_venda");
+				long idCliente = resultado.getLong("id_cliente");
+				Cliente cliente = new ClienteDAOImpl().recuperarClientePorId(idCliente);
+				float valorVenda = resultado.getFloat("valor_venda");
+				LocalDate dataVenda = LocalDate.parse(resultado.getString("data_venda"));
+				FormaPagamento formaPagamento = FormaPagamento.valueOf(resultado.getString("forma_pagamento_venda"));
+				short parcela = resultado.getShort("parcela_venda");
+				vendas.add(new Venda(idVenda, cliente, valorVenda, dataVenda, formaPagamento, parcela));
+
+			}
+
+		} catch (SQLException erro) {
+			erro.printStackTrace();
+		} finally {
+			try {
+				if (resultado != null)
+					resultado.close();
+
+				if (consulta != null)
+					consulta.close();
+
+				if (conexao != null)
+					conexao.close();
+
+			} catch (SQLException erro) {
+				erro.printStackTrace();
+			}
+		}
+
+		return vendas;
+	}
 
 	private Connection conectarBanco() throws SQLException {
 		return DriverManager.getConnection("jdbc:mysql://localhost/finanblu?user=root&password=root");

@@ -23,7 +23,17 @@ public interface VendaDAO {
 	void atualizarDataVenda(Venda venda, LocalDate novaDataVenda);
 
 	void atualizarFormaPagamento(Venda venda, FormaPagamento novaFormaPagamento);
-	
+
+	void atualizarParcela(Venda venda, short novaParcela);
+
 	List<Venda> recuperarVendas();
 	
+	List<Venda> recuperarVendasPorOrdemDataAscendente();
+	
+	List<Venda> recuperarVendasPorOrdemDataDescendente();
+	
+	List<Venda> recuperarVendasPorOrdemClienteAscendente();
+	
+	List<Venda> recuperarVendasPorOrdemClienteDescendente();
+
 }

@@ -10,6 +10,7 @@ import br.senac.finanblu.modelo.entidade.venda.Venda;
 import br.senac.finanblu.modelo.enumeracao.AtributoVenda;
 import br.senac.finanblu.modelo.enumeracao.FormaPagamento;
 import br.senac.finanblu.modelo.enumeracao.Menu;
+import br.senac.finanblu.modelo.enumeracao.Ordem;
 
 public class Principal {
 
@@ -483,13 +484,12 @@ public class Principal {
 	public static void main(String[] args) {
 		/*
 		 * float valorVenda = 5000; LocalDate dataVenda = LocalDate.now();
-		 * FormaPagamento formaPagamento = FormaPagamento.CARTAO_CREDITO; Cliente
-		 * cliente = new Cliente(11L); Venda venda = new Venda(cliente, valorVenda,
-		 * dataVenda, formaPagamento);
-		 * 
-		 * VendaDAO dao = new VendaDAOImpl(); dao.inserirVenda(venda); }
-		 * 
+		 * FormaPagamento formaPagamento = FormaPagamento.CARTAO_CREDITO; short parcela
+		 * = (short) 5; Cliente cliente = new Cliente(11L); Venda venda = new
+		 * Venda(cliente, valorVenda, dataVenda, formaPagamento, parcela); VendaDAO dao
+		 * = new VendaDAOImpl(); dao.inserirVenda(venda); }
 		 */
+
 		VendaDAO dao = new VendaDAOImpl();
 		List<Venda> vendas = null;
 
@@ -506,17 +506,70 @@ public class Principal {
 
 		Scanner leitor = new Scanner(System.in);
 		Menu menu = Menu.values()[Integer.parseInt(leitor.next()) - 1];
-		while (menu != Menu.SAIR) {
+		//while (menu != Menu.SAIR) {
 			switch (menu) {
 
 			case LISTAR:
-
 				vendas = dao.recuperarVendas();
 				listarVendas(vendas);
+				System.out.print("\n");
 
+				System.out.println("As Opções Disponíveis São:\n");
+
+				System.out.println("1 - Listar Vendas pela Data.");
+				System.out.println("2 - Listar Vendas pelo Cliente.");
+
+				System.out.print("Selecione Uma Das Opções Apresentadas: ");
+
+				AtributoVenda atributoVenda = AtributoVenda.values()[Integer.parseInt(leitor.next()) - 1];
+				Ordem ordem = null;
+
+				System.out.println("\nAs Opções Disponíveis São:\n");
+
+				System.out.println("1 - Listar Em Ordem Ascendente.");
+				System.out.println("2 - Listar Em Ordem Descendente.\n");
+
+				System.out.print("Selecione Uma Das Opções Apresentadas: ");
+
+				ordem = Ordem.values()[Integer.parseInt(leitor.next()) - 1];
+
+				switch (atributoVenda) {
+
+				case DATAVENDA:
+
+					switch (ordem) {
+
+					case ASCENDENTE:
+						vendas = dao.recuperarVendasPorOrdemDataAscendente();
+						listarVendas(vendas);
+						break;
+
+					case DESCENDENTE:
+						vendas = dao.recuperarVendasPorOrdemDataDescendente();
+						break;
+					}
+
+					break;
+				case CLIENTE:
+					switch (ordem) {
+
+					case ASCENDENTE:
+						vendas = dao.recuperarVendasPorOrdemClienteAscendente();
+						break;
+
+					case DESCENDENTE:
+						vendas = dao.recuperarVendasPorOrdemClienteDescendente();
+						break;
+					}
+					break;
+
+				}
+				listarVendas(vendas);
 				break;
-
-			case EDITAR:
+				
+			}
+		
+		/*	case EDITAR:
 
 				System.out.print("\n");
 				System.out.println("Os Clientes Cadastrados São:\n");
@@ -538,11 +591,12 @@ public class Principal {
 				System.out.println("5 - Editar O Data da Venda.");
 				System.out.println("6 - Editar O Forma De Pagamento.");
 				System.out.print("Selecione Uma Das Opções Apresentadas: ");
-				AtributoVenda atributoVenda = AtributoVenda.values()[Integer.parseInt(leitor.next()) - 1];
+				atributoVenda = AtributoVenda.values()[Integer.parseInt(leitor.next()) - 1];
+			
 
 				switch (atributoVenda) {
 
-				case RAZAOSOCIAL:
+	// RAZAOSOCIAL:
 
 					System.out.print("\n");
 					System.out.print("Informe A Nova Razao Social Do Cliente: ");
@@ -551,7 +605,7 @@ public class Principal {
 
 					break;
 
-				case NOMEFANTASIA:
+			//	case NOMEFANTASIA:
 
 					System.out.print("\n");
 					System.out.print("Informe O Novo Nome Fantasia Do Cliente:");
@@ -582,6 +636,7 @@ public class Principal {
 					System.out.println("Informe a Forma de Pagamento");
 					dao.atualizarFormaPagamento(venda, FormaPagamento.valueOf(leitor.next()));
 					break;
+
 				case VALORVENDA:
 					System.out.println("\n");
 					System.out.println("Informe o Valor da Venda");
@@ -589,6 +644,11 @@ public class Principal {
 					dao.atualizarValorVenda(venda, leitor.nextFloat());
 					break;
 
+				case PARCELA:
+					System.out.println("\n");
+					System.out.println("Informe a nova Parcela");
+					dao.atualizarParcela(venda, leitor.nextShort());
+					break;
 				}
 
 				System.out.println("\nA Empresa Foi Editado Com Sucesso.\n");
@@ -624,12 +684,8 @@ public class Principal {
 
 		System.out.println("Saindo Do Sistema...");
 		System.out.println("Muito Obrigado E Volte Sempre.");
-
+*/
 	}
-
-	
-
-	
 
 	private static void listarVendas(List<Venda> vendas) {
 
@@ -643,6 +699,7 @@ public class Principal {
 			System.out.println("Valor da Venda: " + venda.getValorVenda());
 			System.out.println("Data da Venda: " + venda.getDataVenda());
 			System.out.println("Forma de Pagamento " + venda.getFormaPagamento());
+			System.out.println("Parcela " + venda.getParcela());
 
 			System.out.print("\n");
 		}
