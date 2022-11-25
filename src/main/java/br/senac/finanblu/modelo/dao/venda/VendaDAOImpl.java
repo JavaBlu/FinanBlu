@@ -27,13 +27,14 @@ public class VendaDAOImpl implements VendaDAO {
 		try {
 			conexao = conectarBanco();
 			insert = conexao.prepareStatement(
-					"INSERT INTO venda ( valor_venda, data_venda, forma_pagamento_venda, id_cliente) VALUES (?,?,?,?)",
+					"INSERT INTO venda (valor_venda, data_venda, forma_pagamento_venda, id_cliente) VALUES (?,?,?,?)",
 					PreparedStatement.RETURN_GENERATED_KEYS);
 			insert.setFloat(1, venda.getValorVenda());
 			insert.setString(2, venda.getDataVenda().toString());
-			insert.setInt(3, venda.getFormaPagamento().ordinal());
+			insert.setString(3, venda.getFormaPagamento().toString());
 			insert.setLong(4, venda.getCliente().getId());
 			insert.execute();
+			
 			ResultSet chavePrimaria = insert.getGeneratedKeys();
 
 			if (chavePrimaria.next())
@@ -98,7 +99,7 @@ public class VendaDAOImpl implements VendaDAO {
 					"UPDATE pessoa_juridica SET razao_social_pessoa_juridica = ? WHERE id_pessoa_juridica = ?");
 
 			update.setString(1, novaRazaoSocial);
-			update.setLong(2, venda.getCliente().getId());
+			update.setLong(2, venda.getCliente().getPessoaJuridica().getId());
 
 			update.execute();
 		} catch (SQLException erro) {
@@ -125,7 +126,7 @@ public class VendaDAOImpl implements VendaDAO {
 					"UPDATE pessoa_juridica SET nome_fantasia_pessoa_juridica = ? WHERE id_pessoa_juridica = ?");
 
 			update.setString(1, novoNomeFantasia);
-			update.setLong(2, venda.getCliente().getId());
+			update.setLong(2, venda.getCliente().getPessoaJuridica().getId());
 
 			update.execute();
 		} catch (SQLException erro) {
@@ -153,8 +154,7 @@ public class VendaDAOImpl implements VendaDAO {
 					"UPDATE pessoa_juridica SET cnpj_pessoa_juridica = ? WHERE id_pessoa_juridica = ?");
 
 			update.setString(1, novoCnpj);
-			update.setLong(2, venda.getCliente().getId());
-
+			update.setLong(2, venda.getCliente().getPessoaJuridica().getId());
 			update.execute();
 		} catch (SQLException erro) {
 			erro.printStackTrace();
@@ -203,7 +203,7 @@ public class VendaDAOImpl implements VendaDAO {
 		PreparedStatement update = null;
 		try {
 			conexao = conectarBanco();
-			update = conexao.prepareStatement("UPDATE venda SET valor_venda = ? WHERE id_venda = ?");
+			update = conexao.prepareStatement("UPDATE venda SET data_venda = ? WHERE id_venda = ?");
 
 			update.setString(1, novaDataVenda.toString());
 			update.setLong(2, venda.getId());
@@ -224,9 +224,30 @@ public class VendaDAOImpl implements VendaDAO {
 		}
 	}
 
-	public void atualizarFormaPagamento(Venda venda, FormaPagamento formaPagamento) {
-		// TODO Auto-generated method stub
+	public void atualizarFormaPagamento(Venda venda, FormaPagamento novaFormaPagamento) {
+		Connection conexao = null;
+		PreparedStatement update = null;
+		try {
+			conexao = conectarBanco();
+			update = conexao.prepareStatement("UPDATE venda SET forma_pagamento_venda = ? WHERE id_venda = ?");
 
+			update.setString(1, novaFormaPagamento.toString());
+			update.setLong(2, venda.getId());
+
+			update.execute();
+		} catch (SQLException erro) {
+			erro.printStackTrace();
+		} finally {
+			try {
+				if (update != null)
+					update.close();
+
+				if (conexao != null)
+					conexao.close();
+			} catch (SQLException erro) {
+				erro.printStackTrace();
+			}
+		}
 	}
 
 	public List<Venda> recuperarVendas() {
@@ -240,7 +261,7 @@ public class VendaDAOImpl implements VendaDAO {
 			conexao = conectarBanco();
 			consulta = conexao.createStatement();
 			resultado = consulta.executeQuery(
-					"select id_venda, id_cliente, valor_venda , data_venda, forma_pagamento_venda from venda");
+					"select id_venda, id_cliente, valor_venda, data_venda, forma_pagamento_venda from venda");
 
 			while (resultado.next()) {
 				long idVenda = resultado.getLong("id_venda");
@@ -248,7 +269,7 @@ public class VendaDAOImpl implements VendaDAO {
 				Cliente cliente = new ClienteDAOImpl().recuperarClientePorId(idCliente);
 				float valorVenda = resultado.getFloat("valor_venda");
 				LocalDate dataVenda = LocalDate.parse(resultado.getString("data_venda"));
-				FormaPagamento formaPagamento = FormaPagamento.valueOf(resultado.getString("forma_pagamento"));
+				FormaPagamento formaPagamento = FormaPagamento.valueOf(resultado.getString("forma_pagamento_venda"));
 				vendas.add(new Venda(idVenda, cliente, valorVenda, dataVenda, formaPagamento));
 
 			}

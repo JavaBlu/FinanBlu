@@ -22,7 +22,7 @@ public interface VendaDAO {
 
 	void atualizarDataVenda(Venda venda, LocalDate novaDataVenda);
 
-	void atualizarFormaPagamento(Venda venda, FormaPagamento formaPagamento);
+	void atualizarFormaPagamento(Venda venda, FormaPagamento novaFormaPagamento);
 	
 	List<Venda> recuperarVendas();
 	
