@@ -14,7 +14,6 @@ import br.senac.finanblu.modelo.dao.endereco.EnderecoDAOImpl;
 import br.senac.finanblu.modelo.dao.pessoaJuridica.PessoaJuridicaDAOImpl;
 import br.senac.finanblu.modelo.entidade.cliente.Cliente;
 import br.senac.finanblu.modelo.entidade.contato.Contato;
-import br.senac.finanblu.modelo.entidade.empresa.Empresa;
 import br.senac.finanblu.modelo.entidade.endereco.Endereco;
 import br.senac.finanblu.modelo.entidade.pessoaJuridica.PessoaJuridica;
 
@@ -471,7 +470,57 @@ public class ClienteDAOImpl implements ClienteDAO {
 
 		return clientes;
 	}
+	public Cliente recuperarClientePorId(long id) {
 
+		Connection conexao = null;
+		PreparedStatement consulta = null;
+		ResultSet resultado = null;
+		Cliente cliente = null;
+		try {
+
+			conexao = conectarBanco();
+
+			consulta = conexao.prepareStatement("SELECT * FROM cliente WHERE id_cliente = ?");
+			consulta.setLong(1, id);
+			consulta.execute();
+			resultado = consulta.getResultSet();
+			while (resultado.next()) {
+				long idPessoaJuridica = resultado.getLong("id_pessoa_juridica");
+				PessoaJuridica pessoaJuridica = new PessoaJuridicaDAOImpl()
+						.recuperarPessoaJuridicaPorId(idPessoaJuridica);
+				long idContato = resultado.getLong("id_contato");
+				Contato contato = new ContatoDAOImpl().recuperarContatoPorId(idContato);
+				long idEndereco = resultado.getLong("id_endereco");
+				Endereco endereco = new EnderecoDAOImpl().recuperarEnderecoPorId(idEndereco);
+
+				cliente = new Cliente(id, pessoaJuridica, contato, endereco);
+			}
+
+		} catch (SQLException erro) {
+			erro.printStackTrace();
+		}
+
+		finally {
+
+			try {
+
+				if (resultado != null)
+					resultado.close();
+
+				if (consulta != null)
+					consulta.close();
+
+				if (conexao != null)
+					conexao.close();
+
+			} catch (SQLException erro) {
+
+				erro.printStackTrace();
+			}
+		}
+
+		return cliente;
+	}
 	private Connection conectarBanco() throws SQLException {
 		return DriverManager.getConnection("jdbc:mysql://localhost/finanblu?user=root&password=root");
 	}

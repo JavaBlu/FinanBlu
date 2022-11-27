@@ -1,4 +1,5 @@
 package br.senac.finanblu.modelo.entidade.cliente;
+
 import br.senac.finanblu.modelo.entidade.contato.Contato;
 import br.senac.finanblu.modelo.entidade.endereco.Endereco;
 import br.senac.finanblu.modelo.entidade.pessoaJuridica.PessoaJuridica;
@@ -23,10 +24,13 @@ public class Cliente {
 		this.setEndereco(endereco);
 	}
 
-	public Cliente() {
-		
+	public Cliente(long id) {
+		this.setId(id);
 	}
 
+	public Cliente() {
+
+	}
 
 	public long getId() {
 		return id;
@@ -35,7 +39,7 @@ public class Cliente {
 	public void setId(long id) {
 		this.id = id;
 	}
-	
+
 	public Endereco getEndereco() {
 		return endereco;
 	}
@@ -59,6 +63,5 @@ public class Cliente {
 	public void setPessoaJuridica(PessoaJuridica pessoaJuridica) {
 		this.pessoaJuridica = pessoaJuridica;
 	}
-
 
 }
