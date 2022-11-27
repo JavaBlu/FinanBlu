@@ -13,9 +13,11 @@ import java.util.List;
 import br.senac.finanblu.modelo.dao.cliente.ClienteDAOImpl;
 import br.senac.finanblu.modelo.dao.contato.ContatoDAOImpl;
 import br.senac.finanblu.modelo.dao.endereco.EnderecoDAOImpl;
+import br.senac.finanblu.modelo.dao.pessoaJuridica.PessoaJuridicaDAOImpl;
 import br.senac.finanblu.modelo.entidade.cliente.Cliente;
 import br.senac.finanblu.modelo.entidade.contato.Contato;
 import br.senac.finanblu.modelo.entidade.endereco.Endereco;
+import br.senac.finanblu.modelo.entidade.pessoaJuridica.PessoaJuridica;
 import br.senac.finanblu.modelo.entidade.venda.Venda;
 import br.senac.finanblu.modelo.enumeracao.FormaPagamento;
 
@@ -377,8 +379,7 @@ public class VendaDAOImpl implements VendaDAO {
 		try {
 			conexao = conectarBanco();
 			consulta = conexao.createStatement();
-			resultado = consulta.executeQuery(
-					"select * from venda ORDER BY year(data_venda) DESC");
+			resultado = consulta.executeQuery("select * from venda ORDER BY year(data_venda) DESC");
 
 			while (resultado.next()) {
 				long idVenda = resultado.getLong("id_venda");
@@ -423,8 +424,7 @@ public class VendaDAOImpl implements VendaDAO {
 		try {
 			conexao = conectarBanco();
 			consulta = conexao.createStatement();
-			resultado = consulta.executeQuery(
-					"select * from venda ORDER BY id_cliente asc");
+			resultado = consulta.executeQuery("select * from venda ORDER BY id_cliente asc");
 
 			while (resultado.next()) {
 				long idVenda = resultado.getLong("id_venda");
@@ -469,8 +469,7 @@ public class VendaDAOImpl implements VendaDAO {
 		try {
 			conexao = conectarBanco();
 			consulta = conexao.createStatement();
-			resultado = consulta.executeQuery(
-					"select * from venda order by id_cliente desc");
+			resultado = consulta.executeQuery("select * from venda order by id_cliente desc");
 
 			while (resultado.next()) {
 				long idVenda = resultado.getLong("id_venda");
@@ -503,6 +502,57 @@ public class VendaDAOImpl implements VendaDAO {
 		}
 
 		return vendas;
+	}
+
+	public Venda recuperarVendasPorId(long id) {
+
+		Connection conexao = null;
+		PreparedStatement consulta = null;
+		ResultSet resultado = null;
+		Venda venda = null;
+		try {
+
+			conexao = conectarBanco();
+
+			consulta = conexao.prepareStatement("SELECT * FROM venda WHERE id_venda = ?");
+			consulta.setLong(1, id);
+			consulta.execute();
+			resultado = consulta.getResultSet();
+			while (resultado.next()) {
+				long idVenda = resultado.getLong("id_venda");
+				long idCliente = resultado.getLong("id_cliente");
+				Cliente cliente = new ClienteDAOImpl().recuperarClientePorId(idCliente);
+				float valorVenda = resultado.getFloat("valor_venda");
+				LocalDate dataVenda = LocalDate.parse(resultado.getString("data_venda"));
+				FormaPagamento formaPagamento = FormaPagamento.valueOf(resultado.getString("forma_pagamento_venda"));
+				short parcela = resultado.getShort("parcela_venda");
+				venda = new Venda(idVenda, cliente, valorVenda, dataVenda, formaPagamento, parcela);
+			}
+
+		} catch (SQLException erro) {
+			erro.printStackTrace();
+		}
+
+		finally {
+
+			try {
+
+				if (resultado != null)
+					resultado.close();
+
+				if (consulta != null)
+					consulta.close();
+
+				if (conexao != null)
+					conexao.close();
+
+			} catch (SQLException erro) {
+
+				erro.printStackTrace();
+			}
+		}
+
+		return venda;
 	}
 
 	private Connection conectarBanco() throws SQLException {

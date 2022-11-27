@@ -4,13 +4,13 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
-import br.senac.finanblu.modelo.dao.venda.VendaDAO;
-import br.senac.finanblu.modelo.dao.venda.VendaDAOImpl;
-import br.senac.finanblu.modelo.entidade.venda.Venda;
-import br.senac.finanblu.modelo.enumeracao.AtributoVenda;
+import br.senac.finanblu.modelo.dao.titulo.TituloDAO;
+import br.senac.finanblu.modelo.dao.titulo.TituloDAOImpl;
+import br.senac.finanblu.modelo.entidade.titulo.Titulo;
+import br.senac.finanblu.modelo.enumeracao.AtributoTitulo;
 import br.senac.finanblu.modelo.enumeracao.FormaPagamento;
 import br.senac.finanblu.modelo.enumeracao.Menu;
-import br.senac.finanblu.modelo.enumeracao.Ordem;
+import br.senac.finanblu.modelo.enumeracao.Situacao;
 
 public class Principal {
 
@@ -480,217 +480,426 @@ public class Principal {
 	 * cliente.getEndereco().getComplemento());
 	 * 
 	 * System.out.print("\n"); } }
+	 * 
+	 * public static void main(String[] args) {
+	 * 
+	 * float valorVenda = 5000; LocalDate dataVenda = LocalDate.now();
+	 * FormaPagamento formaPagamento = FormaPagamento.CARTAO_CREDITO; short parcela
+	 * = (short) 5; Cliente cliente = new Cliente(11L); Venda venda = new
+	 * Venda(cliente, valorVenda, dataVenda, formaPagamento, parcela); VendaDAO dao
+	 * = new VendaDAOImpl(); dao.inserirVenda(venda); }
+	 * 
+	 * 
+	 * VendaDAO dao = new VendaDAOImpl(); List<Venda> vendas = null;
+	 * 
+	 * System.out.println("Sejam Bem-Vindos.\n");
+	 * 
+	 * System.out.println("As Opções Disponíveis São:\n");
+	 * 
+	 * System.out.println("1 - Listar Clientes.");
+	 * System.out.println("2 - Editar Clientes.");
+	 * System.out.println("3 - Deletar Clientes.");
+	 * System.out.println("4 - Sair do Sistema.\n");
+	 * 
+	 * System.out.print("Selecione Uma das Opções Apresentadas: ");
+	 * 
+	 * Scanner leitor = new Scanner(System.in); Menu menu =
+	 * Menu.values()[Integer.parseInt(leitor.next()) - 1]; // while (menu !=
+	 * Menu.SAIR) { switch (menu) {
+	 * 
+	 * case LISTAR: vendas = dao.recuperarVendas(); listarVendas(vendas);
+	 * System.out.print("\n");
+	 * 
+	 * System.out.println("As Opções Disponíveis São:\n");
+	 * 
+	 * System.out.println("1 - Listar Vendas pela Data.");
+	 * System.out.println("2 - Listar Vendas pelo Cliente.");
+	 * 
+	 * System.out.print("Selecione Uma Das Opções Apresentadas: ");
+	 * 
+	 * AtributoVenda atributoVenda =
+	 * AtributoVenda.values()[Integer.parseInt(leitor.next()) - 1]; Ordem ordem =
+	 * null;
+	 * 
+	 * System.out.println("\nAs Opções Disponíveis São:\n");
+	 * 
+	 * System.out.println("1 - Listar Em Ordem Ascendente.");
+	 * System.out.println("2 - Listar Em Ordem Descendente.\n");
+	 * 
+	 * System.out.print("Selecione Uma Das Opções Apresentadas: ");
+	 * 
+	 * 
+	 * ordem = Ordem.values()[Integer.parseInt(leitor.next()) - 1];
+	 * 
+	 * switch (atributoVenda) {
+	 * 
+	 * case DATAVENDA:
+	 * 
+	 * switch (ordem) {
+	 * 
+	 * case ASCENDENTE: vendas = dao.recuperarVendasPorOrdemDataAscendente();
+	 * listarVendas(vendas); break;
+	 * 
+	 * case DESCENDENTE: vendas = dao.recuperarVendasPorOrdemDataDescendente();
+	 * break; } break;
+	 * 
+	 * case CLIENTE:
+	 * 
+	 * switch (ordem) {
+	 * 
+	 * case ASCENDENTE: vendas = dao.recuperarVendasPorOrdemClienteAscendente();
+	 * break;
+	 * 
+	 * case DESCENDENTE: vendas = dao.recuperarVendasPorOrdemClienteDescendente();
+	 * break; } break;
+	 * 
+	 * } listarVendas(vendas); break;
+	 * 
+	 * }
+	 * 
+	 * /* case EDITAR:
+	 * 
+	 * System.out.print("\n"); System.out.println("Os Clientes Cadastrados São:\n");
+	 * 
+	 * vendas = dao.recuperarVendas(); listarVendas(vendas);
+	 * 
+	 * System.out.print("Selecione Um Dos Clientes Para Editar: "); Venda venda =
+	 * vendas.get(Integer.parseInt(leitor.next()) - 1);
+	 * 
+	 * System.out.print("\n");
+	 * 
+	 * System.out.println("As Opções Disponíveis São:\n");
+	 * 
+	 * System.out.println("1 - Editar A Razao Social Do Cliente.");
+	 * System.out.println("2 - Editar O Nome Fantasia Do Cliente.");
+	 * System.out.println("3 - Editar O CNPJ Do Cliente.");
+	 * System.out.println("4 - Editar O Valor Da Venda.");
+	 * System.out.println("5 - Editar O Data da Venda.");
+	 * System.out.println("6 - Editar O Forma De Pagamento.");
+	 * System.out.print("Selecione Uma Das Opções Apresentadas: "); atributoVenda =
+	 * AtributoVenda.values()[Integer.parseInt(leitor.next()) - 1];
+	 * 
+	 * 
+	 * switch (atributoVenda) {
+	 * 
+	 * // RAZAOSOCIAL:
+	 * 
+	 * System.out.print("\n");
+	 * System.out.print("Informe A Nova Razao Social Do Cliente: ");
+	 * 
+	 * dao.atualizarRazaoSocialCliente(venda, leitor.next());
+	 * 
+	 * break;
+	 * 
+	 * // case NOMEFANTASIA:
+	 * 
+	 * System.out.print("\n");
+	 * System.out.print("Informe O Novo Nome Fantasia Do Cliente:");
+	 * 
+	 * dao.atualizarNomeFantasiaCliente(venda, leitor.next());
+	 * 
+	 * break;
+	 * 
+	 * case CNPJ:
+	 * 
+	 * System.out.print("\n"); System.out.print("Informe o Novo CNPJ Do Cliente:");
+	 * 
+	 * dao.atualizarCnpjCliente(venda, leitor.next());
+	 * 
+	 * break;
+	 * 
+	 * case DATAVENDA: System.out.println("\n");
+	 * System.out.println("Informe a Data da Venda:");
+	 * 
+	 * dao.atualizarDataVenda(venda, LocalDate.parse(leitor.next()));
+	 * 
+	 * break;
+	 * 
+	 * case FORMAPAGAMENTO: System.out.println("\n");
+	 * System.out.println("Informe a Forma de Pagamento");
+	 * dao.atualizarFormaPagamento(venda, FormaPagamento.valueOf(leitor.next()));
+	 * break;
+	 * 
+	 * case VALORVENDA: System.out.println("\n");
+	 * System.out.println("Informe o Valor da Venda");
+	 * 
+	 * dao.atualizarValorVenda(venda, leitor.nextFloat()); break;
+	 * 
+	 * case PARCELA: System.out.println("\n");
+	 * System.out.println("Informe a nova Parcela"); dao.atualizarParcela(venda,
+	 * leitor.nextShort()); break; }
+	 * 
+	 * System.out.println("\nA Empresa Foi Editado Com Sucesso.\n"); break; case
+	 * DELETAR: System.out.print("\n");
+	 * System.out.println("Os Clientes Cadastrados São:\n");
+	 * 
+	 * vendas = dao.recuperarVendas(); listarVendas(vendas);
+	 * 
+	 * System.out.print("Selecione Um Dos Clientes Para deletar: "); venda =
+	 * vendas.get(Integer.parseInt(leitor.next()) - 1);
+	 * 
+	 * dao.deletarVenda(venda);
+	 * System.out.println("O Cliente Foi Deletado Com Sucesso.\n");
+	 * 
+	 * break; } System.out.println("As Opções Disponíveis São:\n");
+	 * 
+	 * System.out.println("1 - Listar Clientes.");
+	 * System.out.println("2 - Editar Clientes.");
+	 * System.out.println("3 - Deletar Clientes.");
+	 * System.out.println("4 - Sair do Sistema.\n");
+	 * 
+	 * System.out.print("Selecione Uma das Opções Apresentadas: ");
+	 * 
+	 * menu = Menu.values()[Integer.parseInt(leitor.next()) - 1]; }
+	 * 
+	 * leitor.close();
+	 * 
+	 * System.out.println("Saindo Do Sistema...");
+	 * System.out.println("Muito Obrigado E Volte Sempre.");
+	 * 
+	 * }
+	 * 
+	 * private static void listarVendas(List<Venda> vendas) {
+	 * 
+	 * for (int i = 0; i < vendas.size(); i++) {
+	 * 
+	 * Venda venda = vendas.get(i); System.out.println("ID venda: " +
+	 * venda.getId()); System.out.println("ID Cliente: " +
+	 * venda.getCliente().getId()); System.out.println("Razão Social: " +
+	 * venda.getCliente().getPessoaJuridica().getRazaoSocial());
+	 * System.out.println("Nome Fantasia: " +
+	 * venda.getCliente().getPessoaJuridica().getNomeFantasia());
+	 * System.out.println("Cnpj: " +
+	 * venda.getCliente().getPessoaJuridica().getCnpj());
+	 * System.out.println("Valor da Venda: " + venda.getValorVenda());
+	 * System.out.println("Data da Venda: " + venda.getDataVenda());
+	 * System.out.println("Forma de Pagamento " + venda.getFormaPagamento());
+	 * System.out.println("Parcela " + venda.getParcela());
+	 * 
+	 * System.out.print("\n"); } }
 	 */
 	public static void main(String[] args) {
 		/*
-		 * float valorVenda = 5000; LocalDate dataVenda = LocalDate.now();
-		 * FormaPagamento formaPagamento = FormaPagamento.CARTAO_CREDITO; short parcela
-		 * = (short) 5; Cliente cliente = new Cliente(11L); Venda venda = new
-		 * Venda(cliente, valorVenda, dataVenda, formaPagamento, parcela); VendaDAO dao
-		 * = new VendaDAOImpl(); dao.inserirVenda(venda); }
+		 * String instituicaoFinanceira = "Bradesco"; Venda venda = new Venda(12L);
+		 * LocalDate dataVencimento = LocalDate.now(); Situacao situacao =
+		 * Situacao.ABERTO; LocalDate dataPagamento = LocalDate.now();
+		 * 
+		 * Titulo titulo = new Titulo(venda, instituicaoFinanceira, dataVencimento,
+		 * situacao, dataPagamento);
+		 * 
+		 * TituloDAO dao = new TituloDAOImpl();
+		 * 
+		 * dao.inserirTitulo(titulo);
 		 */
-
-		VendaDAO dao = new VendaDAOImpl();
-		List<Venda> vendas = null;
+		TituloDAO dao = new TituloDAOImpl();
+		List<Titulo> titulos = null;
 
 		System.out.println("Sejam Bem-Vindos.\n");
 
 		System.out.println("As Opções Disponíveis São:\n");
 
-		System.out.println("1 - Listar Clientes.");
-		System.out.println("2 - Editar Clientes.");
-		System.out.println("3 - Deletar Clientes.");
+		System.out.println("1 - Listar Titulos.");
+		System.out.println("2 - Editar Titulos.");
+		System.out.println("3 - Deletar Titulos.");
 		System.out.println("4 - Sair do Sistema.\n");
 
 		System.out.print("Selecione Uma das Opções Apresentadas: ");
 
 		Scanner leitor = new Scanner(System.in);
 		Menu menu = Menu.values()[Integer.parseInt(leitor.next()) - 1];
-		// while (menu != Menu.SAIR) {
-		switch (menu) {
+		while (menu != Menu.SAIR) {
+			switch (menu) {
 
-		case LISTAR:
-			vendas = dao.recuperarVendas();
-			listarVendas(vendas);
-			System.out.print("\n");
+			case LISTAR:
+				titulos = dao.recuperarTitulos();
+				listarTitulos(titulos);
+				System.out.print("\n");
+break;
+			case EDITAR:
+				System.out.print("\n");
+				System.out.println("Os Títulos Cadastrados São:\n");
 
-			System.out.println("As Opções Disponíveis São:\n");
+				titulos = dao.recuperarTitulos();
+				listarTitulos(titulos);
+				
+				System.out.print("Selecione Um Dos Titulos Para Editar: ");
+				Titulo titulo = titulos.get(Integer.parseInt(leitor.next()) - 1);
 
-			System.out.println("1 - Listar Vendas pela Data.");
-			System.out.println("2 - Listar Vendas pelo Cliente.");
+				System.out.print("\n");
 
-			System.out.print("Selecione Uma Das Opções Apresentadas: ");
+				System.out.println("As Opções Disponíveis São:\n");
 
-			AtributoVenda atributoVenda = AtributoVenda.values()[Integer.parseInt(leitor.next()) - 1];
-			Ordem ordem = null;
+				System.out.println("1 - Editar A Razão Social.");
+				System.out.println("2 - Editar Nome Fantasia.");
+				System.out.println("3 - Editar A CNPJ.");
+				System.out.println("4 - Editar O Valor Da Venda.");
+				System.out.println("5 - Editar A Data Da Venda.");
+				System.out.println("6 - Editar A Forma De Pagamento.");
+				System.out.println("7 - Editar A Parcela Da Venda.");
+				System.out.println("8 - Editar A Institução Financeira Do Titulo.");
+				System.out.println("9 - Editar A Data De Vencimento Do Título");
+				System.out.println("10 - Editar A Data De Pagamento Do Titulo.");
+				System.out.println("11 - Editar A Situação Do Titulo");
 
-			System.out.println("\nAs Opções Disponíveis São:\n");
+				System.out.print("Selecione Uma Das Opções Apresentadas: ");
 
-			System.out.println("1 - Listar Em Ordem Ascendente.");
-			System.out.println("2 - Listar Em Ordem Descendente.\n");
+				AtributoTitulo atributoTitulo = AtributoTitulo.values()[Integer.parseInt(leitor.next()) - 1];
 
-			System.out.print("Selecione Uma Das Opções Apresentadas: ");
+				switch (atributoTitulo) {
+				case RAZAO_SOCIAL:
 
+					System.out.print("\n");
+					System.out.print("Informe A Nova Razão Social Do Cliente: ");
+					
+					dao.atualizarRazaoSocialCliente(titulo, leitor.next());
 
-			ordem = Ordem.values()[Integer.parseInt(leitor.next()) - 1];
-
-			switch (atributoVenda) {
-
-			case DATAVENDA:
-
-				switch (ordem) {
-
-				case ASCENDENTE:
-					vendas = dao.recuperarVendasPorOrdemDataAscendente();
-					listarVendas(vendas);
 					break;
 
-				case DESCENDENTE:
-					vendas = dao.recuperarVendasPorOrdemDataDescendente();
+				case NOME_FANTASIA:
+
+					System.out.print("\n");
+					System.out.print("Informe O Novo Nome Fantasia Do Cliente:");
+
+					dao.atualizarNomeFantasiaCliente(titulo, leitor.next());
+
+					break;
+
+				case CNPJ:
+
+					System.out.print("\n");
+					System.out.print("Informe A Novo CNPJ Do Cliente:");
+					
+					dao.atualizarCnpjCliente(titulo, leitor.next());
+
+					break;
+
+				case VALOR_VENDA:
+
+					System.out.print("\n");
+					System.out.print("Informe A Novo Valor Da Venda:");
+					
+					dao.atualizarValorVenda(titulo, leitor.nextFloat());
+
+					break;
+				case DATA_VENDA:
+
+					System.out.print("\n");
+					System.out.print("Informe A Nova Data Da Venda:");
+					
+					dao.atualizarDataVenda(titulo, LocalDate.parse(leitor.next()));
+
+					break;
+				case FORMA_PAGAMENTO:
+
+					System.out.print("\n");
+					System.out.print("Informe A Nova Forma de Pagamento Da Venda:");
+					
+					dao.atualizarFormaPagamentoVenda(titulo, FormaPagamento.valueOf(leitor.next()));
+
+					break;
+				case PARCELA:
+
+					System.out.print("\n");
+					System.out.print("Informe A Nova Parcela Da Venda:");
+					
+					dao.atualizarParcelaVenda(titulo, leitor.nextShort());
+
+					break;
+				case INSTITUICAO_FINANCEIRA:
+
+					System.out.print("\n");
+					System.out.print("Informe A Nova Instituição Financeira Do Titulo:");
+					
+					dao.atualizarInstitucaoFinanceira(titulo, leitor.next());
+
+					break;
+				case DATA_VENCIMENTO:
+
+					System.out.print("\n");
+					System.out.print("Informe A Nova Data De Vencimento Do Titulo:");
+					
+					dao.atualizarDataVencimento(titulo, LocalDate.parse(leitor.next()));
+
+					break;
+				case DATA_PAGAMENTO:
+
+					System.out.print("\n");
+					System.out.print("Informe A Nova Data de Pagamento Do Titulo:");
+					
+					dao.atualizarDataPagamento(titulo, LocalDate.parse(leitor.next()));
+
+					break;
+					
+				case SITUACAO:
+
+					System.out.print("\n");
+					System.out.print("Informe A Nova Situação Do Titulo:");
+					
+					dao.atualizarSituacao(titulo, Situacao.valueOf(leitor.next()));
+
 					break;
 				}
+
+				System.out.println("\nO Cliente Foi Editado Com Sucesso.\n");
+
 				break;
 				
-			case CLIENTE:
+			case DELETAR:
 
-				switch (ordem) {
+				System.out.print("\n");
+				System.out.println("Os Titulos Cadastrados São:\n");
+				
+				titulos = dao.recuperarTitulos();
+				listarTitulos(titulos);
 
-				case ASCENDENTE:
-					vendas = dao.recuperarVendasPorOrdemClienteAscendente();
-					break;
+				System.out.print("Selecione Um Dos Titulos Para deletar: ");
+				titulo = titulos.get(Integer.parseInt(leitor.next()) - 1);
 
-				case DESCENDENTE:
-					vendas = dao.recuperarVendasPorOrdemClienteDescendente();
-					break;
-				}
+				dao.deletarTitulo(titulo);
+				System.out.println("O Titulo Foi Deletado Com Sucesso.\n");
+
 				break;
-
 			}
-			listarVendas(vendas);
-			break;
+			System.out.println("As Opções Disponíveis São:\n");
 
+		
+			System.out.println("1- Listar Titulos.");
+			System.out.println("2 - Editar Titulos.");
+			System.out.println("3 - Deletar Titulos.");
+			System.out.println("4 - Sair do Sistema.\n");
+
+			System.out.print("Selecione Uma das Opções Apresentadas: ");
+
+			menu = Menu.values()[Integer.parseInt(leitor.next()) - 1];
 		}
 
-		/*
-		 * case EDITAR:
-		 * 
-		 * System.out.print("\n"); System.out.println("Os Clientes Cadastrados São:\n");
-		 * 
-		 * vendas = dao.recuperarVendas(); listarVendas(vendas);
-		 * 
-		 * System.out.print("Selecione Um Dos Clientes Para Editar: "); Venda venda =
-		 * vendas.get(Integer.parseInt(leitor.next()) - 1);
-		 * 
-		 * System.out.print("\n");
-		 * 
-		 * System.out.println("As Opções Disponíveis São:\n");
-		 * 
-		 * System.out.println("1 - Editar A Razao Social Do Cliente.");
-		 * System.out.println("2 - Editar O Nome Fantasia Do Cliente.");
-		 * System.out.println("3 - Editar O CNPJ Do Cliente.");
-		 * System.out.println("4 - Editar O Valor Da Venda.");
-		 * System.out.println("5 - Editar O Data da Venda.");
-		 * System.out.println("6 - Editar O Forma De Pagamento.");
-		 * System.out.print("Selecione Uma Das Opções Apresentadas: "); atributoVenda =
-		 * AtributoVenda.values()[Integer.parseInt(leitor.next()) - 1];
-		 * 
-		 * 
-		 * switch (atributoVenda) {
-		 * 
-		 * // RAZAOSOCIAL:
-		 * 
-		 * System.out.print("\n");
-		 * System.out.print("Informe A Nova Razao Social Do Cliente: ");
-		 * 
-		 * dao.atualizarRazaoSocialCliente(venda, leitor.next());
-		 * 
-		 * break;
-		 * 
-		 * // case NOMEFANTASIA:
-		 * 
-		 * System.out.print("\n");
-		 * System.out.print("Informe O Novo Nome Fantasia Do Cliente:");
-		 * 
-		 * dao.atualizarNomeFantasiaCliente(venda, leitor.next());
-		 * 
-		 * break;
-		 * 
-		 * case CNPJ:
-		 * 
-		 * System.out.print("\n"); System.out.print("Informe o Novo CNPJ Do Cliente:");
-		 * 
-		 * dao.atualizarCnpjCliente(venda, leitor.next());
-		 * 
-		 * break;
-		 * 
-		 * case DATAVENDA: System.out.println("\n");
-		 * System.out.println("Informe a Data da Venda:");
-		 * 
-		 * dao.atualizarDataVenda(venda, LocalDate.parse(leitor.next()));
-		 * 
-		 * break;
-		 * 
-		 * case FORMAPAGAMENTO: System.out.println("\n");
-		 * System.out.println("Informe a Forma de Pagamento");
-		 * dao.atualizarFormaPagamento(venda, FormaPagamento.valueOf(leitor.next()));
-		 * break;
-		 * 
-		 * case VALORVENDA: System.out.println("\n");
-		 * System.out.println("Informe o Valor da Venda");
-		 * 
-		 * dao.atualizarValorVenda(venda, leitor.nextFloat()); break;
-		 * 
-		 * case PARCELA: System.out.println("\n");
-		 * System.out.println("Informe a nova Parcela"); dao.atualizarParcela(venda,
-		 * leitor.nextShort()); break; }
-		 * 
-		 * System.out.println("\nA Empresa Foi Editado Com Sucesso.\n"); break; case
-		 * DELETAR: System.out.print("\n");
-		 * System.out.println("Os Clientes Cadastrados São:\n");
-		 * 
-		 * vendas = dao.recuperarVendas(); listarVendas(vendas);
-		 * 
-		 * System.out.print("Selecione Um Dos Clientes Para deletar: "); venda =
-		 * vendas.get(Integer.parseInt(leitor.next()) - 1);
-		 * 
-		 * dao.deletarVenda(venda);
-		 * System.out.println("O Cliente Foi Deletado Com Sucesso.\n");
-		 * 
-		 * break; } System.out.println("As Opções Disponíveis São:\n");
-		 * 
-		 * System.out.println("1 - Listar Clientes.");
-		 * System.out.println("2 - Editar Clientes.");
-		 * System.out.println("3 - Deletar Clientes.");
-		 * System.out.println("4 - Sair do Sistema.\n");
-		 * 
-		 * System.out.print("Selecione Uma das Opções Apresentadas: ");
-		 * 
-		 * menu = Menu.values()[Integer.parseInt(leitor.next()) - 1]; }
-		 * 
-		 * leitor.close();
-		 * 
-		 * System.out.println("Saindo Do Sistema...");
-		 * System.out.println("Muito Obrigado E Volte Sempre.");
-		 */
-	}
+		leitor.close();
 
-	private static void listarVendas(List<Venda> vendas) {
+		System.out.println("Saindo Do Sistema...");
+		System.out.println("Muito Obrigado E Volte Sempre.");
+		}
+	
 
-		for (int i = 0; i < vendas.size(); i++) {
+	private static void listarTitulos(List<Titulo> titulos) {
 
-			Venda venda = vendas.get(i);
-			System.out.println("ID venda: " + venda.getId());
-			System.out.println("ID Cliente: " + venda.getCliente().getId());
-			System.out.println("Razão Social: " + venda.getCliente().getPessoaJuridica().getRazaoSocial());
-			System.out.println("Nome Fantasia: " + venda.getCliente().getPessoaJuridica().getNomeFantasia());
-			System.out.println("Cnpj: " + venda.getCliente().getPessoaJuridica().getCnpj());
-			System.out.println("Valor da Venda: " + venda.getValorVenda());
-			System.out.println("Data da Venda: " + venda.getDataVenda());
-			System.out.println("Forma de Pagamento " + venda.getFormaPagamento());
-			System.out.println("Parcela " + venda.getParcela());
+		for (int i = 0; i < titulos.size(); i++) {
 
+			Titulo titulo = titulos.get(i);
+			System.out.println("ID Titulo: " + titulo.getId());
+			System.out.println("ID Cliente: " + titulo.getVenda().getCliente().getId());
+			System.out.println("ID venda: " + titulo.getVenda().getId());
+			System.out.println("Razão Social: " + titulo.getVenda().getCliente().getPessoaJuridica().getRazaoSocial());
+			System.out.println("Nome Fantasia: " + titulo.getVenda().getCliente().getPessoaJuridica().getNomeFantasia());
+			System.out.println("Cnpj: " + titulo.getVenda().getCliente().getPessoaJuridica().getCnpj());
+			System.out.println("Valor da Venda: " + titulo.getVenda().getValorVenda());
+			System.out.println("Data da Venda: " + titulo.getVenda().getDataVenda());
+			System.out.println("Forma de Pagamento: " + titulo.getVenda().getFormaPagamento());
+			System.out.println("Parcela: " + titulo.getVenda().getParcela());
+			System.out.println("Instituição Financeira: " + titulo.getInstituicaoFinanceira());
+			System.out.println("Data Vencimento: " + titulo.getDataVencimento());
+			System.out.println("Data Pagamento: " + titulo.getDataPagamento());
+			System.out.println("Situação: " + titulo.getSituacao());
 			System.out.print("\n");
 		}
 	}
-
 }

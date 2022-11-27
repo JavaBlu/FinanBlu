@@ -40,6 +40,9 @@ public class Venda {
 		this.setParcela(parcela);
 
 	}
+	public Venda(long id) {
+		this.setId(id);
+	}
 
 	public Venda() {
 

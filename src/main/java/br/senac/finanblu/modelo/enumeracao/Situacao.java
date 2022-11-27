@@ -1,5 +1,5 @@
 package br.senac.finanblu.modelo.enumeracao;
 
 public enum Situacao {
-	ABERTO, AVENCER, VENCIDO
+	ABERTO, PAGO, A_VENCER, VENCIDO
 }
