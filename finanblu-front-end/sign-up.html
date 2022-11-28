@@ -12,47 +12,69 @@
 </head>
 <body class="overflow-hidden">
 
-    <main class="p-10 mt-200 ">
+    <main class="p-10 mt-10">
         <div class="w-100 t-center">
             <img width="350" class="mb-50 mr-auto" src="./assests/images/logo-finanblu.svg" alt="">
         </div>
-        <p class="t-center mt-10 mb-50 font-30">Cadastro</p>
         <div class="login form-signup mr-auto">
+            <p class="t-center mt-10 mb-50 font-30">Insirar os dados para proseguir com o cadastro</p>
+            
             <form action="/bem-vindo.html" method="">
-                <div class="d-flex">
-                    <span class="">*</span>
-                    <label for="nome"></label>
-                    <input class="w-100 input-style" type="text" name="nome" id="nome" required placeholder="Nome completo">
-                </div>
-                <div class="d-flex w-100">
-                    <span class="">*</span>
-                    <label for="cpf"></label>
-                    <input class="w-100 input-style" type="text" name="cpf" id="cpf" required placeholder="CPNJ:">
-                </div>
-                <div class="d-flex">
-                    <span class="">*</span>
+                <div class="d-flex justify-content-center">
+                    <span class="obg">*</span>
                     <label for="email"></label>
-                    <input class="w-100 input-style" type="email" name="email" id="email" required placeholder="E-mail">
+                    <input class="w-80 input-style" type="email" name="email" id="email" required placeholder="Seu E-mail">
                 </div>
-                <div class="d-flex">
-                    <span class="">*</span>
+                <div class="d-flex justify-content-center">
+                    <span class="obg">*</span>
+                    <label for="nome"></label>
+                    <input class="w-80 input-style" type="text" name="nome" id="nome" required placeholder="Nome Empresa">
+                </div>
+                <div class="d-flex justify-content-center">
+                    <span class="obg">*</span>
+                    <label for="cpf"></label>
+                    <input class="w-80 input-style" type="text" name="cpf" id="cpf" required placeholder="CPNJ">
+                </div>
+                <div class="d-flex justify-content-center">
+                    <span class="obg">*</span>
                     <label for="senha"></label>
-                    <input class="w-100 input-style"  type="password" name="senha" id="senha" placeholder="Crie uma senha"><br>
+                    <input class="w-80 input-style"  type="password" name="senha" id="senha" placeholder="Crie uma senha"><br>
                 </div>
-                <div class="d-flex">
-                    <span class="">*</span>
+                <div class="d-flex justify-content-center">
+                    <span class="obg">*</span>
                     <label for="repete-senha"></label>
-                    <input class="w-100 input-style"  type="password" name="repete-senha" id="repete-senha" placeholder="Repete a senha"><br>
+                    <input class="w-80 input-style"  type="password" name="repete-senha" id="repete-senha" placeholder="Repete a senha"><br>
                 </div>
-                <div class="t-center">
+                <div class="d-flex justify-content-center">
+                    <span class="obg">*</span>
+                    <label for="razao-social"></label>
+                    <input class="w-80 input-style"  type="password" name="razao-social" id="razao-social" placeholder="Razão social"><br>
+                </div>
+                <div class="d-flex justify-content-center card-phone">
+                        <span class="obg">*</span>
+                        <div  class="mr-20 ddd">      
+                            <label for="ddd"></label>
+                            <input class="input-style w-30px" type="text" minlength="2" maxlength="2" placeholder="DDD" name="ddd" id="ddd">
+                        </div>
+                      
+                        <div class="telefone">
+                            <label for="telefone"></label>
+                            <input class="input-style w-80" type="text" minlength="9" maxlength="9" placeholder="Telefone" name="telefone" id="telefone">
+                        </div>
+        
+                </div>
+                <div class="d-flex justify-content-center">
                     <label for="cadastrar"> </label>
-                    <input class="link-button-1 submit" type="submit" name="cadastrar" id="cadastrar" value="cadastrar">
+                    <input class="link-button-1 submit mr-50-rem border-radius-10px" type="submit" name="cadastrar" id="cadastrar" value="Finalizar cadastro">
+                </div>
+                <div class="d-flex justify-content-center">
+                    <hr width="300px" class=" mt-30">
                 </div>
                
-                <br><br>
+                    
                 
-                <p class="font-size-1 mt-10 t-center ">
-                     <a class="link-color-1" href="./login.html">já possui cadastro? | fazer login</a> 
+                <p class="font-size-1 mt-10 t-center mb-50">
+                     <a class="link" href="login.html">já possui conta?</a> 
                     
                 </p>
             </form>      

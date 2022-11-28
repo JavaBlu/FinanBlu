@@ -15,27 +15,39 @@
     <main class="p-10 mt-200">
         <div class="w-100 t-center">
             <img width="350" class="mb-10" src="./assests/images/logo-finanblu.svg" alt="">
-            <p class="t-center mt-10 mb-50 font-30">Bem-vindo de volta!</p>
         </div>
         <div class="login form-signup mr-auto">
             <div class="" id="element">
+                <p class="t-center mt-10 mb-50 font-30">Bem-vindo</p>
+                <p class=" mt-10 mb-50 font-30">Acesse sua conta:</p>
                 
             </div>
             <form action="" method="" name="dados" onsubmit="return logar();">
-                <label for="emial">
-                    <input class="w-100 input-style" type="email" name="email" id="email" required placeholder="email">
-                </label>
-                <p style="display: none;" id="msg">informe uma senha</p>
-                <label for="senha">
-                    <input class="w-100 input-style"  type="password" name="senha" id="senha" placeholder="senha"><br>
-                </label>
-                <a class="mb-10 fr font-size-1  link-color-1" href="./restaura-senha.html" >Esqueceu a senha?</a>
-                <div class="t-center">
+                <div class="d-flex justify-content-center">
+                    <label for="emial" class=" w-100 t-center">
+                        <input class=" input-style w-80" type="email" name="email" id="email" required placeholder="Seu E-mail">
+                    </label>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <p style="display: none;" id="msg">informe uma senha</p>
+                    <label for="senha" class="w-100 t-center">
+                        <input class="input-style w-80"  type="password" name="senha" id="senha" placeholder="Sua senha"><br>
+                    </label>
+                </div>
+                <div class=" d-flex justify-content-center">
                     <label for="button-entrar"></label>
-                    <input class="link-button-1 submit" type="submit" name="button-entrar" id="button-entrar" >    
+                    <input class="link-button-1 submit mr-50-rem  border-radius-10px" type="submit" name="button-entrar" id="button-entrar" >    
+                </div>
+                <div class="d-flex justify-content-center">
+                    <hr width="400px" class=" mt-30">
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div class="w-400">       
+                        <a class="font-size-1 link" href="sign-up.html">Criar uma nova conta</a> 
+                        <a class="mb-10 fr font-size-1  link" href="restaura-senha.html" >Esqueceu a senha?</a>
+                    </div>
                 </div>
                 <p class="font-10 mt-10 t-center">
-                    <a class="font-size-1 link-color-1" href="./sign-up.html">Não possui cadastro ? </a> 
                 </p>
             </form>     
             <a href="./dashboard.html">dashboard</a> 

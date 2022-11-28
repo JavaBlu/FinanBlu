@@ -1,5 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 
+:root{
+    --color-black:#0000;
+    --color-primary:#722FEC;
+    --color-segundary:#EFE8FD;
+    --color-gray:rgba(78, 78, 78, 0);
+
+
+}
+
+
 *{
     margin: 0;
     padding: 0;
@@ -11,12 +21,22 @@ body{
 }
 .bg{
     
-    background-image: url(https://www.aurum.com.br/blog/wp-content/uploads/2021/07/direitos-da-personalidade-3.jpg);
+    background-image: url(/assests/images/bg-index.jpg);
     background-repeat: no-repeat;
     background-size: 100%;   
 }
 
 /* geral */
+.link-black{
+    color: var(--color-black);
+}
+
+.border-radius-10px{
+   border-radius: 10px;
+}
+.overflow-hidden{
+    overflow: hidden;
+}
 .d-flex{
     display: flex;
 }
@@ -32,6 +52,9 @@ body{
 .w-300{
     width: 300px;
 }
+.w-400{
+    width: 400px;
+}
 .p-10{
     padding: 10px;
 }
@@ -43,6 +66,9 @@ body{
 }
 .justify-content-space-around{
     justify-content: space-around;
+}
+.justify-content-center{
+    justify-content: center;
 }
 .align-content-center{
     align-items: center;
@@ -66,7 +92,9 @@ body{
 .mr-20{
     margin-right: 20px;
 }
-
+.w-80{
+    width: 80%;
+}
 .mt-30{
     margin: 40px;
 }
@@ -85,11 +113,21 @@ body{
 .mt-10{
     margin-top: 10px;
 }
+
+.w-30px{
+    width: 30px;
+}
 .mb-10{
     margin-bottom: 10px;
 }
 .mb-50{
     margin-bottom: 50px;
+}
+.mr-50-rem{
+    margin-right: 5rem;
+}
+.border-1px{
+    border: 1px solid #000;
 }
 .fr{
     float: right;
@@ -108,37 +146,35 @@ body{
 }
 .link-button-geral{
     padding: 10px 25px;
-    border-radius: 15px;
 }
 .link-color-1{
     color:#11D125;
 }
 .link-button-1{
-    color: #EFE8FD;
-    background-color: #722FEC;
+    color: var(--color-segundary);
+    background-color: var(--color-primary);
 }
 .link-button-1:hover{
-    color: #722FEC;
-    background-color: #EFE8FD;
+    color: var(--color-primary);
+    background-color: var(--color-segundary);
     transition-duration: 1s;
 }
 .link-button-2{
-    color: #722FEC;
-    background-color: #EFE8FD;
+    color: var(--color-primary);
+    background-color: var(--color-segundary);
 }
 .link-button-2:hover{
-    color: #EFE8FD;
-    background-color: #722FEC;
+    color: var(--color-segundary);
+    background-color: var(--color-primary);
     transition-duration: 1s;
 }
 /* login */
 
 .input-style{
-    border: solid 2px #722FEC;
+    border: solid 1px var(--color-primary);
     outline: 0;
-    border-radius: 20px;
+    border-radius: 10px;
     height: 40px;
-    background: #DFD0FB;
     padding: 0 10px;
     margin-bottom: 20px;
 }
@@ -147,7 +183,6 @@ body{
     padding: 10px 50px;
     border: 0;
     margin-left: 85px;
-    border-radius: 15px;
 }
 /* restaura senha */
 
@@ -220,4 +255,24 @@ footer{
 }
 .link-don:hover{
     text-decoration: underline;
+}
+
+/* sign-up */
+.obg{
+    font-size: 20px;
+    color: #ff0000;
+}
+.ddd{
+    width: 50px;
+}
+.telefone{
+    width: 700px;
+}
+.card-phone{
+    padding-left: 60px;
+}
+.form-signup{
+    padding: 10px;
+    max-width: 700px;
+    border: 1px solid #ccc;
 }
