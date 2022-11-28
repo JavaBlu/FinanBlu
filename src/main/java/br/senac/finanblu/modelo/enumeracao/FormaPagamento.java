@@ -1,5 +1,5 @@
 package br.senac.finanblu.modelo.enumeracao;
 
 public enum FormaPagamento {
-	TRANSFERENCIA, PARCELADO, BOLETO
+	BOLETO, CARTAO_CREDITO, TRANSFERENCIA_BANCARIA
 }

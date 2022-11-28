@@ -17,23 +17,23 @@ public interface ClienteDAO {
 
     void AtualizarCnpj(Cliente cliente, String novoCnpj);
 
-    void AtualizarEmailContato(Contato contato, String novoEmail);
+    void AtualizarEmailCliente(Cliente cliente, String novoEmail);
 
-    void AtualizarTelefoneContato(Contato contato, String novoTelefone);
+    void AtualizarTelefoneCliente(Cliente cliente, String novoTelefone);
 
-    void atualizarCepEndereco(Endereco endereco, String novoCep);
+    void atualizarCepEndereco(Cliente cliente, String novoCep);
 
-    void atualizarLogradouroEndereco(Endereco endereco, String novoLogradouro);
+    void atualizarLogradouroEndereco(Cliente cliente, String novoLogradouro);
 
-    void atualizarNumeroEndereco(Endereco endereco, short novoNumero);
+    void atualizarNumeroEndereco(Cliente cliente, short novoNumero);
 
-	void atualizarBairroEndereco(Endereco endereco, String novoBairro);
+	void atualizarBairroEndereco(Cliente cliente, String novoBairro);
 
-	void atualizarCidadeEndereco(Endereco endereco, String novaCidade);
+	void atualizarCidadeEndereco(Cliente cliente, String novaCidade);
 
-	void atualizarUfEndereco(Endereco endereco, String uf);
+	void atualizarUfEndereco(Cliente cliente, String novaUf);
 
-	void atualizarComplementoEndereco(Endereco endereco, String uf);
+	void atualizarComplementoEndereco(Cliente cliente, String novoComplemento);
     
     List<Cliente> recuperarClientes();
 

@@ -7,24 +7,37 @@ import br.senac.finanblu.modelo.entidade.pessoaJuridica.PessoaJuridica;
 public class Cliente {
 
 	private long id;
-
-
 	private Endereco endereco;
 	private Contato contato;
 	private PessoaJuridica pessoaJuridica;
-	
 
-	public Cliente(long id, String razaoSocial, String nomeFantasia, String cnpj, Contato contato, Endereco endereco,
-			PessoaJuridica pessoaJuridica) {
-
+	public Cliente(long id, PessoaJuridica pessoaJuridica, Contato contato, Endereco endereco) {
+		this.setId(id);
+		this.setPessoaJuridica(pessoaJuridica);
+		this.setContato(contato);
+		this.setEndereco(endereco);
 	}
 
-	public Cliente(String razaoSocial, String nomeFantasia, String cnpj, Contato contato, Endereco endereco,
-			PessoaJuridica pessoaJuridica) {
+	public Cliente(PessoaJuridica pessoaJuridica, Contato contato, Endereco endereco) {
+		this.setPessoaJuridica(pessoaJuridica);
+		this.setContato(contato);
+		this.setEndereco(endereco);
+	}
 
+	public Cliente(long id) {
+		this.setId(id);
 	}
 
 	public Cliente() {
+
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public Endereco getEndereco() {
@@ -49,14 +62,6 @@ public class Cliente {
 
 	public void setPessoaJuridica(PessoaJuridica pessoaJuridica) {
 		this.pessoaJuridica = pessoaJuridica;
-	}
-	
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 }

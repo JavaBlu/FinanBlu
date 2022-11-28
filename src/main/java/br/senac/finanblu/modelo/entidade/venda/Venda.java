@@ -12,21 +12,36 @@ public class Venda {
 	private float valorVenda;
 	private LocalDate dataVenda;
 	private FormaPagamento formaPagamento;
+	private short parcela;
 
-	public Venda(long id, Cliente cliente, float valorVenda, LocalDate dataVenda, FormaPagamento formaPagamento) {
+	public Venda(long id, Cliente cliente, float valorVenda, LocalDate dataVenda, FormaPagamento formaPagamento,
+			short parcela) {
 		this.setId(id);
 		this.setCliente(cliente);
 		this.setValorVenda(valorVenda);
 		this.setDataVenda(dataVenda);
 		this.setFormaPagamento(formaPagamento);
+		this.setParcela(parcela);
 
 	}
+	public Venda(long id, float valorVenda, LocalDate dataVenda, FormaPagamento formaPagamento, short parcela) {
+		this.setId(id);
+		this.setValorVenda(valorVenda);
+		this.setDataVenda(dataVenda);
+		this.setFormaPagamento(formaPagamento);
+		this.setParcela(parcela);
+	}
 
-	public Venda(Cliente cliente, float valorVenda, LocalDate dataVenda, FormaPagamento formaPagamento) {
+	public Venda(Cliente cliente, float valorVenda, LocalDate dataVenda, FormaPagamento formaPagamento, short parcela) {
 		this.setCliente(cliente);
 		this.setValorVenda(valorVenda);
 		this.setDataVenda(dataVenda);
 		this.setFormaPagamento(formaPagamento);
+		this.setParcela(parcela);
+
+	}
+
+	public Venda() {
 
 	}
 
@@ -69,4 +84,13 @@ public class Venda {
 	public void setFormaPagamento(FormaPagamento formaPagamento) {
 		this.formaPagamento = formaPagamento;
 	}
+
+	public short getParcela() {
+		return parcela;
+	}
+
+	public void setParcela(short parcela) {
+		this.parcela = parcela;
+	}
+
 }
