@@ -30,7 +30,9 @@ body{
 .link-black{
     color: var(--color-black);
 }
-
+.active{
+    background-color: var(--color-primary);
+}
 .border-radius-10px{
    border-radius: 10px;
 }
@@ -201,18 +203,28 @@ body{
 }
 
 /* Dashboard */
-
+.arrow-horizontal{
+    width: 12px;
+    margin-left: 10px;
+    display: none;
+    transition-duration: 1s;
+}
 .nav-principal-vertical{
     background-color: rgba(144, 91, 240, 0.7);
     width: 80px;
+    transition-duration: 1s;
 }
 .nav-principal-vertical:hover .nav-text{
     width: 150px;
     transition-duration: 1s;
     display: block;
 } 
+.nav-principal-vertical:hover .arrow-horizontal{
+    display: block;
+    transition-duration: 2s;
+} 
 .nav-principal-vertical:hover{
-    width: 150px;
+    width: 190px;
     transition-duration: 1s;
 } 
 .menu-hamburger{
