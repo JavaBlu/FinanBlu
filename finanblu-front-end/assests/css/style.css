@@ -205,7 +205,7 @@ body{
 /* Dashboard */
 .arrow-horizontal{
     width: 12px;
-    margin-left: 10px;
+    margin-right: 20px;
     display: none;
     transition-duration: 1s;
 }
@@ -287,4 +287,43 @@ footer{
     padding: 10px;
     max-width: 700px;
     border: 1px solid #ccc;
+}
+
+/* empresa */
+.empresa-title{
+    font-size: 2rem;
+    font-weight: 100;
+}
+.form-empresa{
+  width: 500px;
+}
+.div-action{
+    padding-top: 100px;
+    padding-left: 10px;
+}
+.bt{
+    margin-left: 8px;
+}
+.div-action button{
+    cursor: pointer;
+    border: 0;
+    background-color: #ffffff;
+}
+.div-action button span{
+    margin: 6px;
+}
+/* .logo-menu{
+    display: none;
+} */
+
+/* .nav-principal-vertical:hover .logo-menu{
+    display: block;
+    margin-top: 20px;
+} */
+.menu-fix{
+    width: 190px !important;
+}
+.nav-text-block{
+    display: block !important;
+    width: 150px;
 }
