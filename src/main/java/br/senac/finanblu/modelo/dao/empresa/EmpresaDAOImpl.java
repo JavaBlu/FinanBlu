@@ -1,4 +1,4 @@
-	package br.senac.finanblu.modelo.dao.empresa;
+package br.senac.finanblu.modelo.dao.empresa;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -82,160 +82,24 @@ public class EmpresaDAOImpl implements EmpresaDAO {
 		}
 	}
 
-	public void atualizarRazaoSocial(Empresa empresa, String novaRazaoSocial) {
+	public void atualizarEmpresa(Empresa empresa) {
+
 		Connection conexao = null;
 		PreparedStatement update = null;
+
 		try {
 			conexao = conectarBanco();
 			update = conexao.prepareStatement(
-					"UPDATE pessoa_juridica SET razao_social_pessoa_juridica = ? WHERE id_pessoa_juridica = ?");
-
-			update.setString(1, novaRazaoSocial);
+					"Update empresa set id_contato = ?, id_pessoa_juridica = ?, senha_empresa = ? where id_empresa = ?");
+			update.setLong(1, empresa.getContato().getId());
 			update.setLong(2, empresa.getPessoaJuridica().getId());
-
+			update.setString(3, empresa.getSenha());
+			update.setLong(4, empresa.getId());
 			update.execute();
-		} catch (SQLException erro) {
-			erro.printStackTrace();
-		} finally {
-			try {
-				if (update != null)
-					update.close();
+			System.out.println("Empresa atualizada com sucesso!");
 
-				if (conexao != null)
-					conexao.close();
-			} catch (SQLException erro) {
-				erro.printStackTrace();
-			}
-		}
-	}
-
-	public void atualizarNomeFantasia(Empresa empresa, String novoNomeFantasia) {
-		Connection conexao = null;
-		PreparedStatement update = null;
-		try {
-			conexao = conectarBanco();
-			update = conexao.prepareStatement(
-					"UPDATE pessoa_juridica SET nome_fantasia_pessoa_juridica = ? WHERE id_pessoa_juridica = ?");
-
-			update.setString(1, novoNomeFantasia);
-			update.setLong(2, empresa.getPessoaJuridica().getId());
-
-			update.execute();
-		} catch (SQLException erro) {
-			erro.printStackTrace();
-		} finally {
-			try {
-				if (update != null)
-					update.close();
-
-				if (conexao != null)
-					conexao.close();
-			} catch (SQLException erro) {
-				erro.printStackTrace();
-			}
-		}
-	}
-
-	public void atualizarCnpj(Empresa empresa, String novoCnpj) {
-		Connection conexao = null;
-		PreparedStatement update = null;
-		try {
-			conexao = conectarBanco();
-			update = conexao
-					.prepareStatement("UPDATE pessoa_juridica SET cnpj_pessoa_juridica = ? WHERE id_pessoa_juridica = ?");
-
-			update.setString(1, novoCnpj);
-			update.setLong(2, empresa.getPessoaJuridica().getId());
-
-			update.execute();
-		} catch (SQLException erro) {
-			erro.printStackTrace();
-		} finally {
-			try {
-				if (update != null)
-					update.close();
-
-				if (conexao != null)
-					conexao.close();
-			} catch (SQLException erro) {
-				erro.printStackTrace();
-			}
-		}
-	}
-
-	public void atualizarTelefoneEmpresa(Empresa empresa, String novoTelefone) {
-		Connection conexao = null;
-		PreparedStatement update = null;
-		try {
-			conexao = conectarBanco();
-			update = conexao.prepareStatement("UPDATE contato SET telefone_contato = ? WHERE id_contato = ?");
-
-			update.setString(1, novoTelefone);
-			update.setLong(2, empresa.getContato().getId());
-
-			update.execute();
-		} catch (SQLException erro) {
-			erro.printStackTrace();
-		} finally {
-			try {
-				if (update != null)
-					update.close();
-
-				if (conexao != null)
-					conexao.close();
-			} catch (SQLException erro) {
-				erro.printStackTrace();
-			}
-		}
-	}
-	public void atualizarEmailEmpresa(Empresa empresa, String novoEmail) {
-		Connection conexao = null;
-		PreparedStatement update = null;
-		try {
-			conexao = conectarBanco();
-			update = conexao.prepareStatement("UPDATE contato SET email_contato = ? WHERE id_contato = ?");
-
-			update.setString(1, novoEmail);
-			update.setLong(2, empresa.getContato().getId());
-
-			update.execute();
-		} catch (SQLException erro) {
-			erro.printStackTrace();
-		} finally {
-			try {
-				if (update != null)
-					update.close();
-
-				if (conexao != null)
-					conexao.close();
-			} catch (SQLException erro) {
-				erro.printStackTrace();
-			}
-		}
-	}
-	public void atualizarSenha(Empresa empresa, String novaSenha) {
-		Connection conexao = null;
-		PreparedStatement update = null;
-		try {
-			conexao = conectarBanco();
-			update = conexao.prepareStatement("UPDATE empresa SET senha_empresa = ? WHERE id_empresa = ?");
-
-			update.setString(1, novaSenha);
-			update.setLong(2, empresa.getId());
-
-			update.execute();
-		} catch (SQLException erro) {
-			erro.printStackTrace();
-		} finally {
-			try {
-				if (update != null)
-					update.close();
-
-				if (conexao != null)
-					conexao.close();
-			} catch (SQLException erro) {
-				erro.printStackTrace();
-			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -249,13 +113,14 @@ public class EmpresaDAOImpl implements EmpresaDAO {
 		try {
 			conexao = conectarBanco();
 			consulta = conexao.createStatement();
-			resultado = consulta.executeQuery(
-					"select id_empresa, id_contato, id_pessoa_juridica, senha_empresa from empresa");
+			resultado = consulta
+					.executeQuery("select id_empresa, id_contato, id_pessoa_juridica, senha_empresa from empresa");
 
 			while (resultado.next()) {
 				long idEmpresa = resultado.getLong("id_empresa");
 				long idPessoaJuridica = resultado.getLong("id_pessoa_juridica");
-				PessoaJuridica pessoaJuridica = new PessoaJuridicaDAOImpl().recuperarPessoaJuridicaPorId(idPessoaJuridica);
+				PessoaJuridica pessoaJuridica = new PessoaJuridicaDAOImpl()
+						.recuperarPessoaJuridicaPorId(idPessoaJuridica);
 				long idContato = resultado.getLong("id_contato");
 				Contato contato = new ContatoDAOImpl().recuperarContatoPorId(idContato);
 				String senha = resultado.getString("senha_empresa");
@@ -288,5 +153,4 @@ public class EmpresaDAOImpl implements EmpresaDAO {
 	private Connection conectarBanco() throws SQLException {
 		return DriverManager.getConnection("jdbc:mysql://localhost/finanblu?user=root&password=root");
 	}
-
 }

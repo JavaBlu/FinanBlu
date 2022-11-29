@@ -428,9 +428,60 @@ public class TituloDAOImpl implements TituloDAO {
 
 		return titulos;
 	}
+	public List<Titulo> recuperarTitulosPagos() {
+
+		Connection conexao = null;
+		Statement consulta = null;
+		ResultSet resultado = null;
+
+		List<Titulo> titulos = new ArrayList<Titulo>();
+
+		try {
+			conexao = conectarBanco();
+			consulta = conexao.createStatement();
+			resultado = consulta.executeQuery("select * from titulo where situacao_titulo = 'PAGO'");
+
+			while (resultado.next()) {
+				long idTitulo = resultado.getLong("id_titulo");
+				long idVenda = resultado.getLong("id_venda");
+				Venda venda = new VendaDAOImpl().recuperarVendasPorId(idVenda);
+				String instituicaoFinanceira = resultado.getString("instituicao_financeira_titulo");
+				LocalDate dataVencimento = LocalDate.parse(resultado.getString("data_vencimento_titulo"));
+				Situacao situacao = Situacao.valueOf(resultado.getString("situacao_titulo"));
+				LocalDate dataPagamento = LocalDate.parse(resultado.getString("data_pagamento_titulo"));
+
+				titulos.add(
+						new Titulo(idTitulo, venda, instituicaoFinanceira, dataVencimento, situacao, dataPagamento));
+
+			}
+
+		} catch (SQLException erro) {
+			erro.printStackTrace();
+		} finally {
+			try {
+				if (resultado != null)
+					resultado.close();
+
+				if (consulta != null)
+					consulta.close();
+
+				if (conexao != null)
+					conexao.close();
+
+			} catch (SQLException erro) {
+				erro.printStackTrace();
+			}
+		}
+
+		return titulos;
+
+		
+	}
 
 	private Connection conectarBanco() throws SQLException {
 		return DriverManager.getConnection("jdbc:mysql://localhost/finanblu?user=root&password=root");
 	}
+
+	
 
 }

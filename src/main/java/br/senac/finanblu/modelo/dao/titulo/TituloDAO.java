@@ -35,4 +35,30 @@ public interface TituloDAO {
 	void atualizarDataPagamento(Titulo titulo, LocalDate novaDataPagamento);
 	
 	List<Titulo> recuperarTitulos();
+	
+	List<Titulo> recuperarTitulosPagos();
+	
+	List<Titulo> recuperarTitulosPagosPorData();
+	
+	List<Titulo> recuperarTitulosPagosPorCliente();
+	
+	List<Titulo> recuperarTitulosAbertos();
+	
+	List<Titulo> recuperarTitulosAbertosPorData(Titulo titulo, LocalDate dataVenda);
+	
+	List<Titulo> recuperarTitulosAbertosPorCliente();
+	
+	List<Titulo> recuperarTitulosVencer();
+	
+	List<Titulo> recuperarTitulosVencerPorData();
+	
+	List<Titulo> recuperarTitulosVencerPorCliente();
+	
+	List<Titulo> recuperarTitulosVencidos();
+	
+	List<Titulo> recuperarTitulosVencidosPorData();
+	
+	List<Titulo> recuperarTitulosVencidosPorCliente();
+	
+	
 }

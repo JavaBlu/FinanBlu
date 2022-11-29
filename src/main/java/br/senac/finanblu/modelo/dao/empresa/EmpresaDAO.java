@@ -11,18 +11,8 @@ public interface EmpresaDAO {
 
 	void deletarEmpresa(Empresa empresa);
 
-	void atualizarRazaoSocial(Empresa empresa, String novaRazaoSocial);
-
-	void atualizarNomeFantasia(Empresa empresa, String novoNomeFantasia);
-
-	void atualizarCnpj(Empresa empresa, String novoCnpj);
-
-	void atualizarTelefoneEmpresa(Empresa empresa, String novoTelefone);
-
-	void atualizarEmailEmpresa(Empresa empresa, String novoEmail);
-
-	void atualizarSenha(Empresa empresa, String novaSenha);
-
+	void atualizarEmpresa(Empresa empresa);
+	
 	List<Empresa> recuperarEmpresas();
 
 }

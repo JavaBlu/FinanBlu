@@ -18,6 +18,10 @@ public class Contato {
 		this.setEmail(email);
 	}
 
+	public Contato(long id) {
+		this.setId(id);
+	}
+
 	public Contato() {
 
 	}
@@ -58,6 +62,7 @@ public class Contato {
 
 		Contato contato = (Contato) objeto;
 
-		return getId() == contato.getId() && getTelefone().equals(contato.getTelefone()) && getEmail().equals(contato.getEmail());
+		return getId() == contato.getId() && getTelefone().equals(contato.getTelefone())
+				&& getEmail().equals(contato.getEmail());
 	}
 }

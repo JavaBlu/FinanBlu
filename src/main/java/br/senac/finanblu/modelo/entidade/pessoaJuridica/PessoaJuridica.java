@@ -21,6 +21,10 @@ public class PessoaJuridica {
 
 	}
 
+	public PessoaJuridica(long id) {
+		this.setId(id);
+	}
+
 	public PessoaJuridica() {
 
 	}
