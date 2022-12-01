@@ -92,335 +92,25 @@ public class ClienteDAOImpl implements ClienteDAO {
 		}
 	}
 
-	public void AtualizarRazaoSocial(Cliente cliente, String novaRazaoSocial) {
+	public void atualizarCliente(Cliente cliente) {
+
 		Connection conexao = null;
 		PreparedStatement update = null;
+
 		try {
 			conexao = conectarBanco();
 			update = conexao.prepareStatement(
-					"UPDATE pessoa_juridica SET razao_social_pessoa_juridica = ? WHERE id_pessoa_juridica = ?");
-
-			update.setString(1, novaRazaoSocial);
-			update.setLong(2, cliente.getPessoaJuridica().getId());
-
-			update.execute();
-		} catch (SQLException erro) {
-			erro.printStackTrace();
-		} finally {
-			try {
-				if (update != null)
-					update.close();
-
-				if (conexao != null)
-					conexao.close();
-			} catch (SQLException erro) {
-				erro.printStackTrace();
-			}
-		}
-	}
-
-	public void AtualizarNomeFantasia(Cliente cliente, String novoNomeFantasia) {
-		Connection conexao = null;
-		PreparedStatement update = null;
-		try {
-			conexao = conectarBanco();
-			update = conexao.prepareStatement(
-					"UPDATE pessoa_juridica SET nome_fantasia_pessoa_juridica = ? WHERE id_pessoa_juridica = ?");
-
-			update.setString(1, novoNomeFantasia);
-			update.setLong(2, cliente.getPessoaJuridica().getId());
-
-			update.execute();
-		} catch (SQLException erro) {
-			erro.printStackTrace();
-		} finally {
-			try {
-				if (update != null)
-					update.close();
-
-				if (conexao != null)
-					conexao.close();
-			} catch (SQLException erro) {
-				erro.printStackTrace();
-			}
-		}
-	}
-
-	public void AtualizarCnpj(Cliente cliente, String novoCnpj) {
-		Connection conexao = null;
-		PreparedStatement update = null;
-		try {
-			conexao = conectarBanco();
-			update = conexao.prepareStatement(
-					"UPDATE pessoa_juridica SET cnpj_pessoa_juridica = ? WHERE id_pessoa_juridica = ?");
-
-			update.setString(1, novoCnpj);
-			update.setLong(2, cliente.getPessoaJuridica().getId());
-
-			update.execute();
-		} catch (SQLException erro) {
-			erro.printStackTrace();
-		} finally {
-			try {
-				if (update != null)
-					update.close();
-
-				if (conexao != null)
-					conexao.close();
-			} catch (SQLException erro) {
-				erro.printStackTrace();
-			}
-		}
-	}
-
-	public void AtualizarTelefoneCliente(Cliente cliente, String novoTelefone) {
-		Connection conexao = null;
-		PreparedStatement update = null;
-		try {
-			conexao = conectarBanco();
-			update = conexao.prepareStatement("UPDATE contato SET telefone_contato = ? WHERE id_contato = ?");
-
-			update.setString(1, novoTelefone);
+					"Update cliente set id_endereco = ?, id_contato = ?, id_pessoa_juridica = ? where id_cliente = ?");
+			update.setLong(1, cliente.getEndereco().getId());
 			update.setLong(2, cliente.getContato().getId());
-
-			update.execute();
-		} catch (SQLException erro) {
-			erro.printStackTrace();
-		} finally {
-			try {
-				if (update != null)
-					update.close();
-
-				if (conexao != null)
-					conexao.close();
-			} catch (SQLException erro) {
-				erro.printStackTrace();
-			}
-		}
-	}
-
-	public void AtualizarEmailCliente(Cliente cliente, String novoEmail) {
-		Connection conexao = null;
-		PreparedStatement update = null;
-		try {
-			conexao = conectarBanco();
-			update = conexao.prepareStatement("UPDATE contato SET email_contato = ? WHERE id_contato = ?");
-
-			update.setString(1, novoEmail);
-			update.setLong(2, cliente.getContato().getId());
-
-			update.execute();
-		} catch (SQLException erro) {
-			erro.printStackTrace();
-		} finally {
-			try {
-				if (update != null)
-					update.close();
-
-				if (conexao != null)
-					conexao.close();
-			} catch (SQLException erro) {
-				erro.printStackTrace();
-			}
-		}
-	}
-
-	public void atualizarCepEndereco(Cliente cliente, String novoCep) {
-		Connection conexao = null;
-		PreparedStatement update = null;
-		try {
-			conexao = conectarBanco();
-			update = conexao.prepareStatement("UPDATE endereco SET cep_endereco = ? WHERE id_endereco = ?");
-
-			update.setString(1, novoCep);
-			update.setLong(2, cliente.getEndereco().getId());
-
-			update.execute();
-		} catch (SQLException erro) {
-			erro.printStackTrace();
-		} finally {
-			try {
-				if (update != null)
-					update.close();
-
-				if (conexao != null)
-					conexao.close();
-			} catch (SQLException erro) {
-				erro.printStackTrace();
-			}
-		}
-	}
-
-	public void atualizarLogradouroEndereco(Cliente cliente, String novoLogradouro) {
-		Connection conexao = null;
-		PreparedStatement update = null;
-
-		try {
-			conexao = conectarBanco();
-			update = conexao.prepareStatement("UPDATE endereco SET logradouro_endereco = ? WHERE id_endereco = ?");
-
-			update.setString(1, novoLogradouro);
-			update.setLong(2, cliente.getEndereco().getId());
-
-			update.execute();
-		} catch (SQLException erro) {
-			erro.printStackTrace();
-		} finally {
-			try {
-				if (update != null)
-					update.close();
-
-				if (conexao != null)
-					conexao.close();
-			} catch (SQLException erro) {
-				erro.printStackTrace();
-			}
-		}
-	}
-
-	public void atualizarNumeroEndereco(Cliente cliente, short novoNumero) {
-		Connection conexao = null;
-		PreparedStatement update = null;
-
-		try {
-			conexao = conectarBanco();
-			update = conexao.prepareStatement("UPDATE endereco SET numero_endereco = ? WHERE id_endereco = ?");
-
-			update.setShort(1, novoNumero);
-			update.setLong(2, cliente.getEndereco().getId());
-
-			update.execute();
-		} catch (SQLException erro) {
-			erro.printStackTrace();
-		} finally {
-			try {
-				if (update != null)
-					update.close();
-
-				if (conexao != null)
-					conexao.close();
-
-			} catch (SQLException erro) {
-				erro.printStackTrace();
-			}
-		}
-
-	}
-
-	public void atualizarBairroEndereco(Cliente cliente, String novoBairro) {
-
-		Connection conexao = null;
-		PreparedStatement update = null;
-
-		try {
-			conexao = conectarBanco();
-			update = conexao.prepareStatement("UPDATE endereco SET bairro_endereco = ? WHERE id_endereco = ?");
-
-			update.setString(1, novoBairro);
-			update.setLong(2, cliente.getEndereco().getId());
-
-			update.execute();
-		} catch (SQLException erro) {
-			erro.printStackTrace();
-		} finally {
-			try {
-				if (update != null)
-					update.close();
-
-				if (conexao != null)
-					conexao.close();
-
-			} catch (SQLException erro) {
-				erro.printStackTrace();
-			}
-		}
-	}
-
-	public void atualizarCidadeEndereco(Cliente cliente, String novaCidade) {
-		Connection conexao = null;
-		PreparedStatement update = null;
-
-		try {
-			conexao = conectarBanco();
-			update = conexao.prepareStatement("UPDATE endereco SET cidade_endereco = ? WHERE id_endereco = ?");
-
-			update.setString(1, novaCidade);
-			update.setLong(2, cliente.getEndereco().getId());
-
+			update.setLong(3, cliente.getPessoaJuridica().getId());
+			update.setLong(4, cliente.getId());
 			update.execute();
 
-		} catch (SQLException erro) {
-			erro.printStackTrace();
-		} finally {
-			try {
-				if (update != null)
-					update.close();
-
-				if (conexao != null)
-					conexao.close();
-
-			} catch (SQLException erro) {
-				erro.printStackTrace();
-			}
-		}
-	}
-
-	public void atualizarUfEndereco(Cliente cliente, String novaUf) {
-		Connection conexao = null;
-		PreparedStatement update = null;
-
-		try {
-			conexao = conectarBanco();
-			update = conexao.prepareStatement("UPDATE endereco SET uf_endereco = ? WHERE id_endereco = ?");
-
-			update.setString(1, novaUf);
-			update.setLong(2, cliente.getEndereco().getId());
-
-			update.execute();
-		} catch (SQLException erro) {
-			erro.printStackTrace();
-		} finally {
-			try {
-				if (update != null)
-					update.close();
-
-				if (conexao != null)
-					conexao.close();
-
-			} catch (SQLException erro) {
-				erro.printStackTrace();
-			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
-	}
-
-	public void atualizarComplementoEndereco(Cliente cliente, String novoComplemento) {
-		Connection conexao = null;
-		PreparedStatement update = null;
-
-		try {
-			conexao = conectarBanco();
-			update = conexao.prepareStatement("UPDATE endereco SET complemento_endereco = ? WHERE id_endereco = ?");
-
-			update.setString(1, novoComplemento);
-			update.setLong(2, cliente.getEndereco().getId());
-
-			update.execute();
-
-		} catch (SQLException erro) {
-			erro.printStackTrace();
-		} finally {
-			try {
-				if (update != null)
-					update.close();
-
-				if (conexao != null)
-					conexao.close();
-
-			} catch (SQLException erro) {
-				erro.printStackTrace();
-			}
-		}
 	}
 
 
@@ -470,6 +160,7 @@ public class ClienteDAOImpl implements ClienteDAO {
 
 		return clientes;
 	}
+
 	public Cliente recuperarClientePorId(long id) {
 
 		Connection conexao = null;
@@ -521,8 +212,10 @@ public class ClienteDAOImpl implements ClienteDAO {
 
 		return cliente;
 	}
+
 	private Connection conectarBanco() throws SQLException {
 		return DriverManager.getConnection("jdbc:mysql://localhost/finanblu?user=root&password=root");
 	}
 
+	
 }

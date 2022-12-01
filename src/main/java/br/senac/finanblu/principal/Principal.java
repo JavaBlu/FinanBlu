@@ -2,10 +2,12 @@ package br.senac.finanblu.principal;
 
 import java.util.List;
 
-import br.senac.finanblu.modelo.dao.contato.ContatoDAO;
-import br.senac.finanblu.modelo.dao.contato.ContatoDAOImpl;
+import br.senac.finanblu.modelo.dao.cliente.ClienteDAO;
+import br.senac.finanblu.modelo.dao.cliente.ClienteDAOImpl;
+import br.senac.finanblu.modelo.entidade.cliente.Cliente;
 import br.senac.finanblu.modelo.entidade.contato.Contato;
 import br.senac.finanblu.modelo.entidade.endereco.Endereco;
+import br.senac.finanblu.modelo.entidade.pessoaJuridica.PessoaJuridica;
 
 public class Principal {
 
@@ -917,34 +919,35 @@ public class Principal {
 		 */
 		
 		
-		List<Contato> contatos = null;
+		List<Cliente> clientes = null;
 		System.out.print("\n");
 		
-		String telefone = "31241563221";
-		String email = "gay@gay";
-		
-		Contato contato = new Contato((15L), telefone, email);
+		PessoaJuridica pessoaJuridica = new PessoaJuridica((22L));
+		Contato contato = new Contato((13L));
+		Endereco endereco = new Endereco((10L));
+		Cliente cliente = new Cliente((13L), pessoaJuridica, contato, endereco);
 
-		ContatoDAO dao = new ContatoDAOImpl();
+		ClienteDAO dao = new ClienteDAOImpl();
 
-		dao.atualizarContato(contato);
+		dao.atualizarCliente(cliente);
 	
-		contatos = dao.recuperarContatos();
-		listarEmpresas(contatos);
+		clientes = dao.recuperarClientes();
+		listarEmpresas(clientes);
 
 
 		
 	}
 
-	private static void listarEmpresas(List<Contato> contatos) {
+	private static void listarEmpresas(List<Cliente> clientes) {
 
-		for (int i = 0; i < contatos.size(); i++) {
+		for (int i = 0; i < clientes.size(); i++) {
 
-			Contato contato = contatos.get(i);
+			Cliente cliente = clientes.get(i);
 
-			System.out.println("ID Contato : " + contato.getId());
-			System.out.println("Telefone: " + contato.getTelefone());
-			System.out.println("email: " + contato.getEmail());
+			System.out.println("ID Cliente : " + cliente.getId());
+			System.out.println("razao Social: " + cliente.getPessoaJuridica().getRazaoSocial());
+			System.out.println("email: " + cliente.getContato().getEmail());
+			System.out.println("Cep: " + cliente.getEndereco().getCep());
 			System.out.print("\n");
 
 		}

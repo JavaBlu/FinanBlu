@@ -34,6 +34,9 @@ public class Endereco {
 		this.setComplemento(complemento);
 
 	}
+	public Endereco(long id) {
+		this.setId(id);
+	}
 
 	public Endereco() {
 
