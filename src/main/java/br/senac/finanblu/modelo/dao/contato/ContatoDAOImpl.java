@@ -84,78 +84,24 @@ public class ContatoDAOImpl implements ContatoDAO {
 		}
 	}
 
-	public void atualizarEmailContato(Contato contato, String novoEmail) {
+	public void atualizarContato(Contato contato) {
 		Connection conexao = null;
 		PreparedStatement update = null;
 
 		try {
-
 			conexao = conectarBanco();
-			update = conexao.prepareStatement("UPDATE contato SET email_contato = ? WHERE id_contato = ?");
-
-			update.setString(1, novoEmail);
-			update.setLong(2, contato.getId());
-
+			update = conexao.prepareStatement(
+					"Update contato set telefone_contato = ?, email_contato = ? where id_contato = ?");
+			update.setString(1,  contato.getTelefone());
+			update.setString(2, contato.getEmail());
+			update.setLong(3, contato.getId());
 			update.execute();
 
-		} catch (SQLException erro) {
-			erro.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
-		finally {
-
-			try {
-
-				if (update != null)
-					update.close();
-
-				if (conexao != null)
-					conexao.close();
-
-			} catch (SQLException erro) {
-
-				erro.printStackTrace();
-			}
-		}
+		
 	}
-
-	public void atualizarTelefoneContato(Contato contato, String novoTelefone) {
-
-		Connection conexao = null;
-		PreparedStatement update = null;
-
-		try {
-
-			conexao = conectarBanco();
-			update = conexao.prepareStatement("UPDATE contato SET telefone_contato = ? WHERE id_contato = ?");
-
-			update.setString(1, novoTelefone);
-			update.setLong(2, contato.getId());
-
-			update.execute();
-
-		} catch (SQLException erro) {
-			erro.printStackTrace();
-		}
-
-		finally {
-
-			try {
-
-				if (update != null)
-					update.close();
-
-				if (conexao != null)
-					conexao.close();
-
-			} catch (SQLException erro) {
-
-				erro.printStackTrace();
-			}
-		}
-
-	}
-
 	
 	public List<Contato> recuperarContatos() {
 
@@ -256,4 +202,6 @@ public class ContatoDAOImpl implements ContatoDAO {
 	private Connection conectarBanco() throws SQLException {
 		return DriverManager.getConnection("jdbc:mysql://localhost/finanblu?user=root&password=root");
 	}
+
+	
 }

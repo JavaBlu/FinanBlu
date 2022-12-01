@@ -10,9 +10,7 @@ public interface ContatoDAO {
 	
 	void deletarContato (Contato contato);
 	
-	void atualizarEmailContato (Contato contato, String novoEmail);
-	
-	void atualizarTelefoneContato(Contato contato, String novoTelefone);
+	void atualizarContato(Contato contato);
 	
 	List<Contato> recuperarContatos();
 

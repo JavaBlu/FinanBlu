@@ -2,8 +2,9 @@ package br.senac.finanblu.principal;
 
 import java.util.List;
 
-import br.senac.finanblu.modelo.dao.endereco.EnderecoDAO;
-import br.senac.finanblu.modelo.dao.endereco.EnderecoDAOImpl;
+import br.senac.finanblu.modelo.dao.contato.ContatoDAO;
+import br.senac.finanblu.modelo.dao.contato.ContatoDAOImpl;
+import br.senac.finanblu.modelo.entidade.contato.Contato;
 import br.senac.finanblu.modelo.entidade.endereco.Endereco;
 
 public class Principal {
@@ -916,32 +917,34 @@ public class Principal {
 		 */
 		
 		
-		List<Endereco> enderecos = null;
-	
-	EnderecoDAO dao = new EnderecoDAOImpl();
+		List<Contato> contatos = null;
+		System.out.print("\n");
+		
+		String telefone = "31241563221";
+		String email = "gay@gay";
+		
+		Contato contato = new Contato((15L), telefone, email);
 
+		ContatoDAO dao = new ContatoDAOImpl();
+
+		dao.atualizarContato(contato);
 	
-		enderecos = dao.recuperarEnderecos();
-		listarEmpresas(enderecos);
+		contatos = dao.recuperarContatos();
+		listarEmpresas(contatos);
 
 
 		
 	}
 
-	private static void listarEmpresas(List<Endereco> enderecos) {
+	private static void listarEmpresas(List<Contato> contatos) {
 
-		for (int i = 0; i < enderecos.size(); i++) {
+		for (int i = 0; i < contatos.size(); i++) {
 
-			Endereco endereco = enderecos.get(i);
+			Contato contato = contatos.get(i);
 
-			System.out.println("ID Endereco : " + endereco.getId());
-			System.out.println("CEP: " + endereco.getCep());
-			System.out.println("Logradouro: " + endereco.getLogradouro());
-			System.out.println("Numero: " + endereco.getNumero());
-			System.out.println("Bairro: " + endereco.getBairro());
-			System.out.println("Cidade: " + endereco.getCidade());
-			System.out.println("Uf: " + endereco.getUf());
-			System.out.println("Complemento: " + endereco.getComplemento());
+			System.out.println("ID Contato : " + contato.getId());
+			System.out.println("Telefone: " + contato.getTelefone());
+			System.out.println("email: " + contato.getEmail());
 			System.out.print("\n");
 
 		}
