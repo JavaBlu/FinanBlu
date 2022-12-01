@@ -12,27 +12,7 @@ public interface TituloDAO {
 	
 	void deletarTitulo(Titulo titulo);
 
-	void atualizarRazaoSocialCliente(Titulo titulo, String novaRazaoSocial);
-
-	void atualizarNomeFantasiaCliente(Titulo titulo, String novoNomeFantasia);
-
-	void atualizarCnpjCliente(Titulo titulo, String novoCnpj);
-
-	void atualizarValorVenda(Titulo titulo, float novoValorVenda);
-
-	void atualizarDataVenda(Titulo titulo, LocalDate novaDataVenda);
-
-	void atualizarFormaPagamentoVenda(Titulo titulo, FormaPagamento novaFormaPagamento);
-
-	void atualizarParcelaVenda(Titulo titulo, short novaParcela);
-
-	void atualizarInstitucaoFinanceira(Titulo titulo, String novaInstuicaoFinanceira);
-	
-	void atualizarDataVencimento(Titulo titulo, LocalDate novaDataVencimento);
-	
-	void atualizarSituacao(Titulo titulo, Situacao novaSituacao);
-	
-	void atualizarDataPagamento(Titulo titulo, LocalDate novaDataPagamento);
+	void atualizarTitulo(Titulo titulo);
 	
 	List<Titulo> recuperarTitulos();
 	

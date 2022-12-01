@@ -3,11 +3,12 @@ package br.senac.finanblu.principal;
 import java.time.LocalDate;
 import java.util.List;
 
-import br.senac.finanblu.modelo.dao.venda.VendaDAO;
-import br.senac.finanblu.modelo.dao.venda.VendaDAOImpl;
-import br.senac.finanblu.modelo.entidade.cliente.Cliente;
+import br.senac.finanblu.modelo.dao.titulo.TituloDAO;
+import br.senac.finanblu.modelo.dao.titulo.TituloDAOImpl;
+import br.senac.finanblu.modelo.entidade.titulo.Titulo;
 import br.senac.finanblu.modelo.entidade.venda.Venda;
 import br.senac.finanblu.modelo.enumeracao.FormaPagamento;
+import br.senac.finanblu.modelo.enumeracao.Situacao;
 
 public class Principal {
 
@@ -918,39 +919,41 @@ public class Principal {
 		 * 
 		 */
 
-		List<Venda> vendas = null;
+		List<Titulo> titulos = null;
 		System.out.print("\n");
+		Venda venda = new Venda(4L);
 
-		Cliente cliente = new Cliente(1L);
+		String instituicaoFinanceira = "BBBBBBBBB";
+		LocalDate dataVencimento = LocalDate.of(2023, 07, 05);
+		LocalDate dataPagamento = LocalDate.of(2023, 07, 02);
+		Situacao situacao = Situacao.A_VENCER;
+		
+		Titulo titulo = new Titulo((4L), venda, instituicaoFinanceira, dataVencimento, situacao ,dataPagamento);
+		TituloDAO dao = new TituloDAOImpl();
 
-		float valorVenda = 4000;
-		LocalDate dataVenda = LocalDate.of(2010, 06, 05);
-		FormaPagamento formaPagamento = FormaPagamento.CARTAO_CREDITO;
-		short parcela = 34;
-		Venda venda = new Venda((4L), cliente, valorVenda, dataVenda, formaPagamento, parcela);
-		VendaDAO dao = new VendaDAOImpl();
+		dao.atualizarTitulo(titulo);
 
-		dao.atualizarVenda(venda);
-
-		vendas = dao.recuperarVendas();
-		listarEmpresas(vendas);
+		titulos = dao.recuperarTitulos();
+		listarEmpresas(titulos);
 
 	}
 
-	private static void listarEmpresas(List<Venda> vendas) {
+	private static void listarEmpresas(List<Titulo> titulos) {
 
-		for (int i = 0; i < vendas.size(); i++) {
+		for (int i = 0; i < titulos.size(); i++) {
 
-			Venda venda = vendas.get(i);
+			Titulo titulo = titulos.get(i);
 
-			System.out.println("ID Cliente : " + venda.getId());
-			System.out.println("razao Social: " + venda.getCliente().getPessoaJuridica().getRazaoSocial());
-			System.out.println("email: " + venda.getCliente().getContato().getEmail());
-			System.out.println("valor da venda: " + venda.getValorVenda());
-			System.out.println("Data da venda: " + venda.getDataVenda());
-			System.out.println("Forma de pagamento: " + venda.getFormaPagamento());
-			System.out.println("Parcela: " + venda.getParcela());
-			System.out.println();
+			System.out.println("ID Titulo : " + titulo.getId());
+			System.out.println("ID Venda: " + titulo.getVenda().getId());
+			System.out.println("ID cliente: " + titulo.getVenda().getCliente());
+			System.out.println("razao Social: " + titulo.getVenda().getCliente().getPessoaJuridica().getRazaoSocial());
+			System.out.println("email: " + titulo.getVenda().getCliente().getContato().getEmail());
+			System.out.println("valor da venda: " + titulo.getVenda().getValorVenda());
+			System.out.println("Instituicao Financeira: " + titulo.getInstituicaoFinanceira());
+			System.out.println("Data da Vencimento: " + titulo.getDataVencimento());
+			System.out.println("Data de pagamento: " + titulo.getDataPagamento());
+			System.out.println("Situação: " + titulo.getSituacao());
 			System.out.print("\n");
 
 		}
