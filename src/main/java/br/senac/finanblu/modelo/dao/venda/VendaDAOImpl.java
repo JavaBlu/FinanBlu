@@ -11,13 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.senac.finanblu.modelo.dao.cliente.ClienteDAOImpl;
-import br.senac.finanblu.modelo.dao.contato.ContatoDAOImpl;
-import br.senac.finanblu.modelo.dao.endereco.EnderecoDAOImpl;
-import br.senac.finanblu.modelo.dao.pessoaJuridica.PessoaJuridicaDAOImpl;
 import br.senac.finanblu.modelo.entidade.cliente.Cliente;
-import br.senac.finanblu.modelo.entidade.contato.Contato;
-import br.senac.finanblu.modelo.entidade.endereco.Endereco;
-import br.senac.finanblu.modelo.entidade.pessoaJuridica.PessoaJuridica;
 import br.senac.finanblu.modelo.entidade.venda.Venda;
 import br.senac.finanblu.modelo.enumeracao.FormaPagamento;
 
@@ -93,191 +87,28 @@ public class VendaDAOImpl implements VendaDAO {
 		}
 	}
 
-	public void atualizarRazaoSocialCliente(Venda venda, String novaRazaoSocial) {
-		Connection conexao = null;
-		PreparedStatement update = null;
-		try {
-			conexao = conectarBanco();
-			update = conexao.prepareStatement(
-					"UPDATE pessoa_juridica SET razao_social_pessoa_juridica = ? WHERE id_pessoa_juridica = ?");
+		public void atualizarVenda(Venda venda) {
+			Connection conexao = null;
+			PreparedStatement update = null;
 
-			update.setString(1, novaRazaoSocial);
-			update.setLong(2, venda.getCliente().getPessoaJuridica().getId());
-
-			update.execute();
-		} catch (SQLException erro) {
-			erro.printStackTrace();
-		} finally {
 			try {
-				if (update != null)
-					update.close();
+				conexao = conectarBanco();
+				update = conexao.prepareStatement(
+						"Update venda set id_cliente = ?, valor_venda = ?, data_venda = ?, forma_pagamento_venda = ?, parcela_venda = ? where id_venda = ?");
+				update.setLong(1, venda.getCliente().getId());
+				update.setFloat(2, venda.getValorVenda());
+				update.setString(3, venda.getDataVenda().toString());
+				update.setString(4, venda.getFormaPagamento().toString());
+				update.setShort(5, venda.getParcela());
+				update.setLong(6, venda.getId());
+				
+				update.execute();
 
-				if (conexao != null)
-					conexao.close();
-			} catch (SQLException erro) {
-				erro.printStackTrace();
-			}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}		
 		}
-	}
-
-	public void atualizarNomeFantasiaCliente(Venda venda, String novoNomeFantasia) {
-		Connection conexao = null;
-		PreparedStatement update = null;
-		try {
-			conexao = conectarBanco();
-			update = conexao.prepareStatement(
-					"UPDATE pessoa_juridica SET nome_fantasia_pessoa_juridica = ? WHERE id_pessoa_juridica = ?");
-
-			update.setString(1, novoNomeFantasia);
-			update.setLong(2, venda.getCliente().getPessoaJuridica().getId());
-
-			update.execute();
-		} catch (SQLException erro) {
-			erro.printStackTrace();
-		} finally {
-			try {
-				if (update != null)
-					update.close();
-
-				if (conexao != null)
-					conexao.close();
-			} catch (SQLException erro) {
-				erro.printStackTrace();
-			}
-		}
-
-	}
-
-	public void atualizarCnpjCliente(Venda venda, String novoCnpj) {
-		Connection conexao = null;
-		PreparedStatement update = null;
-		try {
-			conexao = conectarBanco();
-			update = conexao.prepareStatement(
-					"UPDATE pessoa_juridica SET cnpj_pessoa_juridica = ? WHERE id_pessoa_juridica = ?");
-
-			update.setString(1, novoCnpj);
-			update.setLong(2, venda.getCliente().getPessoaJuridica().getId());
-			update.execute();
-		} catch (SQLException erro) {
-			erro.printStackTrace();
-		} finally {
-			try {
-				if (update != null)
-					update.close();
-
-				if (conexao != null)
-					conexao.close();
-			} catch (SQLException erro) {
-				erro.printStackTrace();
-			}
-		}
-	}
-
-	public void atualizarValorVenda(Venda venda, float novoValorVenda) {
-		Connection conexao = null;
-		PreparedStatement update = null;
-		try {
-			conexao = conectarBanco();
-			update = conexao.prepareStatement("UPDATE venda SET valor_venda = ? WHERE id_venda = ?");
-
-			update.setFloat(1, novoValorVenda);
-			update.setLong(2, venda.getId());
-
-			update.execute();
-		} catch (SQLException erro) {
-			erro.printStackTrace();
-		} finally {
-			try {
-				if (update != null)
-					update.close();
-
-				if (conexao != null)
-					conexao.close();
-			} catch (SQLException erro) {
-				erro.printStackTrace();
-			}
-		}
-
-	}
-
-	public void atualizarDataVenda(Venda venda, LocalDate novaDataVenda) {
-		Connection conexao = null;
-		PreparedStatement update = null;
-		try {
-			conexao = conectarBanco();
-			update = conexao.prepareStatement("UPDATE venda SET data_venda = ? WHERE id_venda = ?");
-
-			update.setString(1, novaDataVenda.toString());
-			update.setLong(2, venda.getId());
-
-			update.execute();
-		} catch (SQLException erro) {
-			erro.printStackTrace();
-		} finally {
-			try {
-				if (update != null)
-					update.close();
-
-				if (conexao != null)
-					conexao.close();
-			} catch (SQLException erro) {
-				erro.printStackTrace();
-			}
-		}
-	}
-
-	public void atualizarFormaPagamento(Venda venda, FormaPagamento novaFormaPagamento) {
-		Connection conexao = null;
-		PreparedStatement update = null;
-		try {
-			conexao = conectarBanco();
-			update = conexao.prepareStatement("UPDATE venda SET forma_pagamento_venda = ? WHERE id_venda = ?");
-
-			update.setString(1, novaFormaPagamento.toString());
-			update.setLong(2, venda.getId());
-
-			update.execute();
-		} catch (SQLException erro) {
-			erro.printStackTrace();
-		} finally {
-			try {
-				if (update != null)
-					update.close();
-
-				if (conexao != null)
-					conexao.close();
-			} catch (SQLException erro) {
-				erro.printStackTrace();
-			}
-		}
-	}
-
-	public void atualizarParcela(Venda venda, short novaParcela) {
-		Connection conexao = null;
-		PreparedStatement update = null;
-		try {
-			conexao = conectarBanco();
-			update = conexao.prepareStatement("UPDATE venda SET parcela_venda = ? WHERE id_venda = ?");
-
-			update.setShort(1, novaParcela);
-			update.setLong(2, venda.getId());
-
-			update.execute();
-		} catch (SQLException erro) {
-			erro.printStackTrace();
-		} finally {
-			try {
-				if (update != null)
-					update.close();
-
-				if (conexao != null)
-					conexao.close();
-			} catch (SQLException erro) {
-				erro.printStackTrace();
-			}
-		}
-	}
+			
 
 	public List<Venda> recuperarVendas() {
 		Connection conexao = null;
@@ -558,5 +389,8 @@ public class VendaDAOImpl implements VendaDAO {
 	private Connection conectarBanco() throws SQLException {
 		return DriverManager.getConnection("jdbc:mysql://localhost/finanblu?user=root&password=root");
 	}
+
+	
+	
 
 }

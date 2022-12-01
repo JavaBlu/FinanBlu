@@ -1,13 +1,13 @@
 package br.senac.finanblu.principal;
 
+import java.time.LocalDate;
 import java.util.List;
 
-import br.senac.finanblu.modelo.dao.cliente.ClienteDAO;
-import br.senac.finanblu.modelo.dao.cliente.ClienteDAOImpl;
+import br.senac.finanblu.modelo.dao.venda.VendaDAO;
+import br.senac.finanblu.modelo.dao.venda.VendaDAOImpl;
 import br.senac.finanblu.modelo.entidade.cliente.Cliente;
-import br.senac.finanblu.modelo.entidade.contato.Contato;
-import br.senac.finanblu.modelo.entidade.endereco.Endereco;
-import br.senac.finanblu.modelo.entidade.pessoaJuridica.PessoaJuridica;
+import br.senac.finanblu.modelo.entidade.venda.Venda;
+import br.senac.finanblu.modelo.enumeracao.FormaPagamento;
 
 public class Principal {
 
@@ -917,37 +917,40 @@ public class Principal {
 		 * titulo.getSituacao()); System.out.print("\n"); }
 		 * 
 		 */
-		
-		
-		List<Cliente> clientes = null;
+
+		List<Venda> vendas = null;
 		System.out.print("\n");
-		
-		PessoaJuridica pessoaJuridica = new PessoaJuridica((22L));
-		Contato contato = new Contato((13L));
-		Endereco endereco = new Endereco((10L));
-		Cliente cliente = new Cliente((13L), pessoaJuridica, contato, endereco);
 
-		ClienteDAO dao = new ClienteDAOImpl();
+		Cliente cliente = new Cliente(1L);
 
-		dao.atualizarCliente(cliente);
-	
-		clientes = dao.recuperarClientes();
-		listarEmpresas(clientes);
+		float valorVenda = 4000;
+		LocalDate dataVenda = LocalDate.of(2010, 06, 05);
+		FormaPagamento formaPagamento = FormaPagamento.CARTAO_CREDITO;
+		short parcela = 34;
+		Venda venda = new Venda((4L), cliente, valorVenda, dataVenda, formaPagamento, parcela);
+		VendaDAO dao = new VendaDAOImpl();
 
+		dao.atualizarVenda(venda);
 
-		
+		vendas = dao.recuperarVendas();
+		listarEmpresas(vendas);
+
 	}
 
-	private static void listarEmpresas(List<Cliente> clientes) {
+	private static void listarEmpresas(List<Venda> vendas) {
 
-		for (int i = 0; i < clientes.size(); i++) {
+		for (int i = 0; i < vendas.size(); i++) {
 
-			Cliente cliente = clientes.get(i);
+			Venda venda = vendas.get(i);
 
-			System.out.println("ID Cliente : " + cliente.getId());
-			System.out.println("razao Social: " + cliente.getPessoaJuridica().getRazaoSocial());
-			System.out.println("email: " + cliente.getContato().getEmail());
-			System.out.println("Cep: " + cliente.getEndereco().getCep());
+			System.out.println("ID Cliente : " + venda.getId());
+			System.out.println("razao Social: " + venda.getCliente().getPessoaJuridica().getRazaoSocial());
+			System.out.println("email: " + venda.getCliente().getContato().getEmail());
+			System.out.println("valor da venda: " + venda.getValorVenda());
+			System.out.println("Data da venda: " + venda.getDataVenda());
+			System.out.println("Forma de pagamento: " + venda.getFormaPagamento());
+			System.out.println("Parcela: " + venda.getParcela());
+			System.out.println();
 			System.out.print("\n");
 
 		}
