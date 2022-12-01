@@ -2,11 +2,9 @@ package br.senac.finanblu.principal;
 
 import java.util.List;
 
-import br.senac.finanblu.modelo.dao.pessoaJuridica.PessoaJuridicaDAO;
-import br.senac.finanblu.modelo.dao.pessoaJuridica.PessoaJuridicaDAOImpl;
-import br.senac.finanblu.modelo.entidade.contato.Contato;
-import br.senac.finanblu.modelo.entidade.empresa.Empresa;
-import br.senac.finanblu.modelo.entidade.pessoaJuridica.PessoaJuridica;
+import br.senac.finanblu.modelo.dao.endereco.EnderecoDAO;
+import br.senac.finanblu.modelo.dao.endereco.EnderecoDAOImpl;
+import br.senac.finanblu.modelo.entidade.endereco.Endereco;
 
 public class Principal {
 
@@ -918,35 +916,32 @@ public class Principal {
 		 */
 		
 		
-		List<PessoaJuridica> pessoasJuridicas = null;
-		System.out.print("\n");
-		
-		String razaoSocial = "AAAAAAA";
-		String nomeFantasia = "BBBBBBBB";
-		String cnpj = "111111111112345678";
-		PessoaJuridica pessoaJuridica = new PessoaJuridica((24L), razaoSocial, nomeFantasia, cnpj);
-
-		PessoaJuridicaDAO dao = new PessoaJuridicaDAOImpl();
-
-		dao.atualizarPessoaJuridica(pessoaJuridica);
+		List<Endereco> enderecos = null;
 	
-		pessoasJuridicas = dao.recuperarPessoasJuridicas();
-		listarEmpresas(pessoasJuridicas);
+	EnderecoDAO dao = new EnderecoDAOImpl();
+
+	
+		enderecos = dao.recuperarEnderecos();
+		listarEmpresas(enderecos);
 
 
 		
 	}
 
-	private static void listarEmpresas(List<PessoaJuridica> pessoasJuridicas) {
+	private static void listarEmpresas(List<Endereco> enderecos) {
 
-		for (int i = 0; i < pessoasJuridicas.size(); i++) {
+		for (int i = 0; i < enderecos.size(); i++) {
 
-			PessoaJuridica pessoaJuridica = pessoasJuridicas.get(i);
+			Endereco endereco = enderecos.get(i);
 
-			System.out.println("ID Pessoa Juridica: " + pessoaJuridica.getId());
-			System.out.println("Razão Social: " + pessoaJuridica.getRazaoSocial());
-			System.out.println("Nome Fantasia: " + pessoaJuridica.getNomeFantasia());
-			System.out.println("Cnpj: " + pessoaJuridica.getCnpj());
+			System.out.println("ID Endereco : " + endereco.getId());
+			System.out.println("CEP: " + endereco.getCep());
+			System.out.println("Logradouro: " + endereco.getLogradouro());
+			System.out.println("Numero: " + endereco.getNumero());
+			System.out.println("Bairro: " + endereco.getBairro());
+			System.out.println("Cidade: " + endereco.getCidade());
+			System.out.println("Uf: " + endereco.getUf());
+			System.out.println("Complemento: " + endereco.getComplemento());
 			System.out.print("\n");
 
 		}
