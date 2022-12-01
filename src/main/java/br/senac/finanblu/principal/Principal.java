@@ -1,10 +1,9 @@
 package br.senac.finanblu.principal;
 
 import java.util.List;
-import java.util.Scanner;
 
-import br.senac.finanblu.modelo.dao.empresa.EmpresaDAO;
-import br.senac.finanblu.modelo.dao.empresa.EmpresaDAOImpl;
+import br.senac.finanblu.modelo.dao.pessoaJuridica.PessoaJuridicaDAO;
+import br.senac.finanblu.modelo.dao.pessoaJuridica.PessoaJuridicaDAOImpl;
 import br.senac.finanblu.modelo.entidade.contato.Contato;
 import br.senac.finanblu.modelo.entidade.empresa.Empresa;
 import br.senac.finanblu.modelo.entidade.pessoaJuridica.PessoaJuridica;
@@ -918,43 +917,36 @@ public class Principal {
 		 * 
 		 */
 		
-		EmpresaDAO dao = new EmpresaDAOImpl();
-		Scanner leitor = new Scanner(System.in);
-
-		List<Empresa> empresas = null;
+		
+		List<PessoaJuridica> pessoasJuridicas = null;
 		System.out.print("\n");
-		System.out.println("As Empresas Cadastradas São:\n");
+		
+		String razaoSocial = "AAAAAAA";
+		String nomeFantasia = "BBBBBBBB";
+		String cnpj = "111111111112345678";
+		PessoaJuridica pessoaJuridica = new PessoaJuridica((24L), razaoSocial, nomeFantasia, cnpj);
 
-		empresas = dao.recuperarEmpresas();
-		listarEmpresas(empresas);
+		PessoaJuridicaDAO dao = new PessoaJuridicaDAOImpl();
 
-		Contato contato = new Contato(4L);
-		PessoaJuridica pessoaJuridica = new PessoaJuridica(3L);
-		String senha = "AAAAAAA";
+		dao.atualizarPessoaJuridica(pessoaJuridica);
+	
+		pessoasJuridicas = dao.recuperarPessoasJuridicas();
+		listarEmpresas(pessoasJuridicas);
 
-		Empresa empresa = new Empresa((6L), pessoaJuridica, contato, senha);
-
-		EmpresaDAO dao1 = new EmpresaDAOImpl();
-
-		//dao1.atualizarEmpresa(empresa);
 
 		
 	}
 
-	private static void listarEmpresas(List<Empresa> empresas) {
+	private static void listarEmpresas(List<PessoaJuridica> pessoasJuridicas) {
 
-		for (int i = 0; i < empresas.size(); i++) {
+		for (int i = 0; i < pessoasJuridicas.size(); i++) {
 
-			Empresa empresa = empresas.get(i);
+			PessoaJuridica pessoaJuridica = pessoasJuridicas.get(i);
 
-			System.out.println("ID Empresa: " + empresa.getId());
-			System.out.println("ID Pessoa Juridica: " + empresa.getPessoaJuridica().getId());
-			System.out.println("Razão Social: " + empresa.getPessoaJuridica().getRazaoSocial());
-			System.out.println("Nome Fantasia: " + empresa.getPessoaJuridica().getNomeFantasia());
-			System.out.println("Cnpj: " + empresa.getPessoaJuridica().getCnpj());
-			System.out.println("Telefone: " + empresa.getContato().getTelefone());
-			System.out.println("Email: " + empresa.getContato().getEmail());
-			System.out.println("Senha: " + empresa.getSenha());
+			System.out.println("ID Pessoa Juridica: " + pessoaJuridica.getId());
+			System.out.println("Razão Social: " + pessoaJuridica.getRazaoSocial());
+			System.out.println("Nome Fantasia: " + pessoaJuridica.getNomeFantasia());
+			System.out.println("Cnpj: " + pessoaJuridica.getCnpj());
 			System.out.print("\n");
 
 		}
