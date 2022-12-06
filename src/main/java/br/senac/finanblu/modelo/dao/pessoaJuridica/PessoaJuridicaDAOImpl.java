@@ -13,7 +13,7 @@ import br.senac.finanblu.modelo.entidade.pessoaJuridica.PessoaJuridica;
 
 public class PessoaJuridicaDAOImpl implements PessoaJuridicaDAO {
 
-	public void inserirPessoaJuridica(PessoaJuridica pessoaJuridica) {
+	public PessoaJuridica inserirPessoaJuridica(PessoaJuridica pessoaJuridica) {
 		Connection conexao = null;
 		PreparedStatement insert = null;
 
@@ -46,6 +46,7 @@ public class PessoaJuridicaDAOImpl implements PessoaJuridicaDAO {
 				erro.printStackTrace();
 			}
 		}
+		return pessoaJuridica;
 	}
 
 	public void deletarPessoaJuridica(PessoaJuridica pessoaJuridica) {

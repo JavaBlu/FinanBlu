@@ -5,7 +5,7 @@ import java.util.List;
 import br.senac.finanblu.modelo.entidade.pessoaJuridica.PessoaJuridica;
 
 public interface PessoaJuridicaDAO {
-	void inserirPessoaJuridica(PessoaJuridica pessoaJuridica);
+	PessoaJuridica inserirPessoaJuridica(PessoaJuridica pessoaJuridica);
 
 	void deletarPessoaJuridica(PessoaJuridica pessoaJuridica);
 

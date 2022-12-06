@@ -13,7 +13,7 @@ import br.senac.finanblu.modelo.entidade.contato.Contato;
 
 public class ContatoDAOImpl implements ContatoDAO {
 
-	public void inserirContato(Contato contato) {
+	public Contato inserirContato(Contato contato) {
 
 		Connection conexao = null;
 		PreparedStatement insert = null;
@@ -46,6 +46,7 @@ public class ContatoDAOImpl implements ContatoDAO {
 				erro.printStackTrace();
 			}
 		}
+		return contato;
 
 	}
 

@@ -16,10 +16,11 @@ public class Empresa {
 		this.setSenha(senha);
 	}
 
-	public Empresa(Contato contato, String senha, PessoaJuridica pessoaJuridica) {
+	public Empresa(PessoaJuridica pessoaJuridica, Contato contato, String senha) {
+		this.setPessoaJuridica(pessoaJuridica);
 		this.setContato(contato);
 		this.setSenha(senha);
-		this.setPessoaJuridica(pessoaJuridica); 
+
 	}
 
 	public Empresa() {
@@ -71,7 +72,7 @@ public class Empresa {
 
 		Empresa empresa = (Empresa) objeto;
 
-		return getId() == empresa.getId() && getContato().equals(empresa.getContato()) && getPessoaJuridica().equals(empresa.getPessoaJuridica())
-				&& getSenha().equals(empresa.getSenha());
+		return getId() == empresa.getId() && getContato().equals(empresa.getContato())
+				&& getPessoaJuridica().equals(empresa.getPessoaJuridica()) && getSenha().equals(empresa.getSenha());
 	}
 }

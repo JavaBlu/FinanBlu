@@ -482,6 +482,61 @@ public class TituloDAOImpl implements TituloDAO {
 		return DriverManager.getConnection("jdbc:mysql://localhost/finanblu?user=root&password=root");
 	}
 
+	public List<Titulo> recuperarTitulosPagosPorData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Titulo> recuperarTitulosPagosPorCliente() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Titulo> recuperarTitulosAbertos() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Titulo> recuperarTitulosAbertosPorData(Titulo titulo, LocalDate dataVenda) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Titulo> recuperarTitulosAbertosPorCliente() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Titulo> recuperarTitulosVencer() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Titulo> recuperarTitulosVencerPorData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Titulo> recuperarTitulosVencerPorCliente() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Titulo> recuperarTitulosVencidos() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Titulo> recuperarTitulosVencidosPorData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Titulo> recuperarTitulosVencidosPorCliente() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 
 }

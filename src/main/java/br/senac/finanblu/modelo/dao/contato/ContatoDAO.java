@@ -6,7 +6,7 @@ import br.senac.finanblu.modelo.entidade.contato.Contato;
 
 public interface ContatoDAO {
 	
-	void inserirContato (Contato contato);
+	Contato inserirContato (Contato contato);
 	
 	void deletarContato (Contato contato);
 	
